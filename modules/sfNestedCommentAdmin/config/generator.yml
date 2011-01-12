@@ -1,0 +1,65 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           sfNestedComment
+    theme:                 admin15
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          sf_nested_comment
+    with_propel_route:     1
+    #css:                   nothing
+    
+    config:
+      actions: ~
+      fields:
+        author_name:      { label: Author }
+        content:          { label: Comment }
+        commentableTitle: { label: In Response To }
+        created_at:       { label: Submitted At }
+        author_email:     { label: Email }
+        author_url:       { label: Website }
+      list:
+        title:    List of comments
+        display:  [_author_name, _comment, commentableTitle]
+        actions:  [ ]
+        object_actions:
+          _edit: ~
+          togglePublish: { name: publish/unpublish, action: togglePublish }
+          reply:         { name: Reply, action: new }
+          _delete: ~
+      filter:
+        display: [content, is_moderated]
+        fields:
+          content:
+            widgetOptions: { with_empty: false }
+      form:    ~
+      edit:
+        title: Edit Comment
+        display: [author_name, author_email, author_url, content, created_at]
+        fields:
+          author_name:  { type: plain }
+          author_email: { type: plain }
+          author_url:   { type: plain }
+          created_at:   { type: plain }
+          content:
+            widgetClass: sfWidgetFormTextareaTinyMCE
+            widgetOptions: { theme: simple }
+            widgetAttributes: { rows: 5, cols: 80 }
+      new:
+        title: Reply
+        display: [author_name, author_email, author_url, content, user_id]
+        fields:
+          content:
+            widgetClass: sfWidgetFormTextareaTinyMCE
+            widgetOptions: { theme: simple }
+            widgetAttributes: { rows: 5, cols: 80 }
+          author_name:
+            widgetClass: sfWidgetFormInputHidden
+          author_email:
+            widgetClass: sfWidgetFormInputHidden
+          author_url:
+            widgetClass: sfWidgetFormInputHidden
+          user_id:
+            widgetClass: sfWidgetFormInputHidden
