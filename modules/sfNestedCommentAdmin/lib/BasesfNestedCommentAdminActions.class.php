@@ -48,9 +48,15 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
       $isNew = $form->getObject()->isNew();
       $notice = $isNew ? 'Your reply was saved successfully.' : 'The item was updated successfully.';
 
+      //automoderation for an author
+      if ($isNew) $form->getObject()->setIsModerated(true);
+      
       $sf_nested_comment = $form->save();
 
-      if ($isNew && sfConfig::get('app_sfNestedComment_mail_alert', false) && $sf_nested_comment->isReply())
+      $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
+      $enable_mail_alert = $email_pref === true || $email_pref == 'moderated';
+
+      if ($isNew && $enable_mail_alert && $sf_nested_comment->isReply())
       {
         $userComment = $sf_nested_comment->getsfNestedCommentRelatedBySfCommentId();
         $subject_string = '%1% replied to your comment on "%2%"';

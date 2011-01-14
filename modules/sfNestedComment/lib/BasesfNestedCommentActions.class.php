@@ -47,8 +47,8 @@ class BasesfNestedCommentActions extends sfActions
       }
       $comment->save();
 
-      $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', 1);
-      if($email_pref == 1 || ($email_pref == 'moderated' && $comment->getIsModerated()))
+      $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
+      if($email_pref == true || ($email_pref == 'moderated' && $comment->getIsModerated()))
       {
         $this->sendEmailNotification($comment);
       }
