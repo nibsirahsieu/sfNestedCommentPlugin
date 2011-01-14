@@ -1,6 +1,0 @@
-_recentComments:
-  enabled: true
-
-all:
-  with_layout: false   # Default value
-  lifetime:    2592000   # Default value
