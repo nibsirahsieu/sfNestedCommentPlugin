@@ -20,7 +20,7 @@
   <div class="sf_admin_form_row sf_admin_plain">
     <div>
       <label for="sf_nested_comment_author_name">Comment</label>
-      <div class="content"><div><?php echo $comment->getContent() ?></div></div>
+      <div class="content"><?php echo $comment->getContent(ESC_RAW) ?></div>
     </div>
   </div>
 </fieldset>
