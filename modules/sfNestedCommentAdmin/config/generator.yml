@@ -9,7 +9,6 @@ generator:
     plural:                ~
     route_prefix:          sf_nested_comment
     with_propel_route:     1
-    #css:                   nothing
     
     config:
       actions: ~
@@ -44,17 +43,13 @@ generator:
           author_url:   { type: plain }
           created_at:   { type: plain }
           content:
-            widgetClass: sfWidgetFormTextareaTinyMCE
-            widgetOptions: { theme: simple }
-            widgetAttributes: { rows: 5, cols: 80 }
+            widgetAttributes: { rows: 20, cols: 100 }
       new:
         title: Reply
         display: [author_name, author_email, author_url, content, user_id]
         fields:
           content:
-            widgetClass: sfWidgetFormTextareaTinyMCE
-            widgetOptions: { theme: simple }
-            widgetAttributes: { rows: 5, cols: 80 }
+            widgetAttributes: { rows: 20, cols: 100 }
           author_name:
             widgetClass: sfWidgetFormInputHidden
           author_email:
@@ -63,3 +58,4 @@ generator:
             widgetClass: sfWidgetFormInputHidden
           user_id:
             widgetClass: sfWidgetFormInputHidden
+
