@@ -18,31 +18,5 @@
  * @package    propel.generator.plugins.sfNestedCommentsPlugin.lib.model
  */
 class sfNestedComment extends PluginsfNestedComment {
-  public function save(PropelPDO $con = null)
-  {
-    $parentComment = null;
-    if ($this->getUserId() && $this->isNew())
-    {
-      $this->setIsModerated(false);
-      if (null !== $parentId = $this->getSfCommentId())
-      {
-        $parentComment = sfNestedCommentQuery::create()->findPk($parentId);
-        $parentComment->setIsModerated(false);
-      }
-    }
-    $con = propel::getConnection();
-    try
-    {
-      $con->beginTransaction();
-      if (null !== $parentComment) $parentComment->save($con);
-      $ret = parent::save($con);
-      $con->commit();
-      return $ret;
-    }
-    catch (Exception $e)
-    {
-      $con->rollBack();
-      throw $e;
-    }
-  }
+  
 } // sfNestedComment
