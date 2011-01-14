@@ -15,8 +15,9 @@
 #    paging:              true    # enable comments paging
 #    max_per_page:        5       # number of comments to display
 #    sort_type:           desc    #
-#    mail_alert:          true    # send an email to the blog owner when a comment is posted.
+#    mail_alert:          false   # send an email to the blog owner when a comment is posted.
                                   # Possible values are:
+                                  # false: disable mail alert
                                   # true: send an email for every posted comment
                                   # moderated: send an email for every automoderated comment
 #    from_email:          johndoe@xmail.com
