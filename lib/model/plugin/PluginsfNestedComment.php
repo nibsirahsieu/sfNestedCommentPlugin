@@ -9,16 +9,16 @@ class PluginsfNestedComment extends BasesfNestedComment
   }
   
   public function findAndCreateRoot($scope)
-	{
-	  $root = sfNestedCommentQuery::create()->findRoot($scope);
-	  if (null === $root)
-	  {
-	    $root = new sfNestedComment();
-	    $root->setExtra($scope);
-	    $root->makeRoot();
-	  }
-	  return $root;
-	}
+  {
+    $root = sfNestedCommentQuery::create()->findRoot($scope);
+    if (null === $root)
+    {
+      $root = new sfNestedComment();
+      $root->setExtra($scope);
+      $root->makeRoot();
+    }
+    return $root;
+  }
 
   public function preSave(PropelPDO $con = null)
   {
@@ -34,10 +34,6 @@ class PluginsfNestedComment extends BasesfNestedComment
         $parent = sfNestedCommentQuery::create()->findPk($this->getSfCommentId());
         $this->insertAsLastChildOf($parent);
       }
-    }
-    if (!$this->getIsModerated())
-    {
-      sfSimpleBlogTools::clearCache('sf_cache_partial/sfNestedComment/__recentComments/sf_cache_key/*');
     }
     return parent::preSave($con);
   }
