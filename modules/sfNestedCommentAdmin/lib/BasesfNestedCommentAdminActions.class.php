@@ -15,29 +15,17 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
 
   public function executeNew(sfWebRequest $request)
   {
+    parent::executeNew($request);
     $profile = $this->getUser()->getProfile();
     $this->parent_comment = $this->getRoute()->getObject();
-    $this->sf_nested_comment = new sfNestedComment();
-    $this->sf_nested_comment->setSfCommentId($this->parent_comment->getId());
-    $this->sf_nested_comment->setCommentableModel($this->parent_comment->getCommentableModel());
-    $this->sf_nested_comment->setCommentableId($this->parent_comment->getCommentableId());
-    $this->sf_nested_comment->setExtra($this->parent_comment->getExtra());
-    $this->sf_nested_comment->setUserId($this->getUser()->getGuardUser()->getId());
-    $this->sf_nested_comment->setAuthorName($profile->getFirstName().' '.$profile->getLastName());
-    $this->sf_nested_comment->setAuthorEmail($profile->getEmail());
-    $this->sf_nested_comment->setAuthorUrl($profile->getWebsite());
-    $this->form = $this->configuration->getForm($this->sf_nested_comment);
-    $this->form->setWidget('author_name', new sfWidgetFormInputHidden(array(), array()));
-    $this->form->setWidget('author_email', new sfWidgetFormInputHidden(array(), array()));
-    $this->form->setWidget('author_url', new sfWidgetFormInputHidden(array(), array()));
-    $this->form->setWidget('content', new sfWidgetFormTextareaTinyMCE(array(  'theme' => 'simple',), array(  'rows' => 5,  'cols' => 80,)));
-    $this->form->setWidget('user_id', new sfWidgetFormInputHidden(array(), array()));
-    unset($this->form['is_moderated']);
-    unset($this->form['created_at']);
-    unset($this->form['updated_at']);
-    unset($this->form['tree_left']);
-    unset($this->form['tree_right']);
-    unset($this->form['tree_level']);
+    $this->form->setDefault('sf_comment_id', $this->parent_comment->getId());
+    $this->form->setDefault('commentable_model', $this->parent_comment->getCommentableModel());
+    $this->form->setDefault('commentable_id', $this->parent_comment->getCommentableId());
+    $this->form->setDefault('extra', $this->parent_comment->getExtra());
+    $this->form->setDefault('author_name', (string) $profile);
+    $this->form->setDefault('author_email', $profile->getEmail());
+    $this->form->setDefault('author_url', $profile->getWebsite());
+    $this->form->setDefault('user_id', $this->getUser()->getGuardUser()->getId());
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)
