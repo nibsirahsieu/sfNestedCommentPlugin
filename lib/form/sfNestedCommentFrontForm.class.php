@@ -11,7 +11,7 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $this->validatorSchema['author_email'] = new sfValidatorEmail(array('required' => true));
     $this->validatorSchema['author_url'] = new sfValidatorUrl(array('required' => false));
     $this->validatorSchema['content'] = new sfValidatorString(array('required' => true));
-
+    $this->widgetSchema['content']->setAttribute('rows', 10);
     $this->widgetSchema['author_name']->setLabel('Name (required)');
     $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
     $this->widgetSchema['author_url']->setLabel('Website');

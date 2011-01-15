@@ -30,41 +30,41 @@ textarea {
 /* =Navigation
 -------------------------------------------------------------- */
 
-.navigation {
+#sfNestedComments .navigation {
 	color: #888;
 	font-size: 12px;
 	line-height: 18px;
 	overflow: hidden;
 }
-.navigation a:link,
-.navigation a:visited {
+#sfNestedComments .navigation a:link,
+#sfNestedComments .navigation a:visited {
 	color: #888;
 	text-decoration: none;
 }
-.navigation a:active,
-.navigation a:hover {
+#sfNestedComments .navigation a:active,
+#sfNestedComments .navigation a:hover {
 	color: #ff4b33;
 }
-.nav-previous {
+#sfNestedComments .nav-previous {
 	float: left;
 	width: 50%;
 }
-.nav-next {
+#sfNestedComments .nav-next {
 	float: right;
 	text-align: right;
 	width: 50%;
 }
-#nav-above {
+#sfNestedComments #nav-above {
 	margin: 0 0 18px 0;
 }
-#nav-above {
+#sfNestedComments #nav-above {
 	display: none;
 }
-.paged #nav-above,
+#sfNestedComments .paged #nav-above,
 .single #nav-above {
 	display: block;
 }
-#nav-below {
+#sfNestedComments #nav-below {
 	margin: -18px 0 0 0;
 }
 
@@ -281,5 +281,5 @@ table.recentcommentsavatar a {border: 0px !important;background-color: transpare
 td.recentcommentstextend, td.recentcommentstexttop {line-height: 1.4em; vertical-align: middle; }
 td.recentcommentsavatartop {padding:0px 0px 1px 0px;margin:0px; }
 td.recentcommentsavatarend {padding:0px 0px 1px 0px;margin:0px; }
-td.recentcommentstexttop { border: none !important;padding:0px 0px 0px 10px;}
-td.recentcommentstextend { border: none !important;padding:0px 0px 2px 10px;}
+td.recentcommentstexttop { border: none !important;padding:0px 0px 0px 10px; text-align: left;}
+td.recentcommentstextend { border: none !important;padding:0px 0px 2px 10px; text-align: left;}
