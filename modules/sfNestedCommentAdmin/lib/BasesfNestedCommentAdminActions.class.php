@@ -17,7 +17,7 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
   {
     parent::executeNew($request);
     $profile = $this->getUser()->getProfile();
-    $this->parent_comment = $this->getRoute()->getObject();
+    $this->parent_comment = sfNestedCommentQuery::create()->findPk($request->getParameter('id'));
     $this->form->setDefault('sf_comment_id', $this->parent_comment->getId());
     $this->form->setDefault('commentable_model', $this->parent_comment->getCommentableModel());
     $this->form->setDefault('commentable_id', $this->parent_comment->getCommentableId());
