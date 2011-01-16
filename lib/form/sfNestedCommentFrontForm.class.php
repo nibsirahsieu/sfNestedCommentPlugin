@@ -16,6 +16,19 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
     $this->widgetSchema['author_url']->setLabel('Website');
     $this->widgetSchema['content']->setLabel('Comment (required)');
+
+    $allowed_html_tags = sfConfig::get('app_sfNestedComment_allowed_tags', array());
+    if (!empty($allowed_html_tags))
+    {
+      $help = '<p class="form-allowed-tags">You may use these HTML tags and attributes : <code>';
+      foreach ($allowed_html_tags as $tag)
+      {
+        $help .= htmlentities($tag).' ';
+      }
+      $help .= '</p>';
+      $this->widgetSchema['content']->getParent()->setHelp('content', $help);
+    }
+    
     $this->getWidgetSchema()->setFormFormatterName('comment');
   }
 }
