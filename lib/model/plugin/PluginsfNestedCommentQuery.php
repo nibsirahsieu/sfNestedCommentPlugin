@@ -11,9 +11,14 @@ class PluginsfNestedCommentQuery extends BasesfNestedCommentQuery
     return $this->filterByIsModerated(false);
   }
 
-  public function recent()
+  public function sortByCreatedAt()
   {
     return $this->orderByCreatedAt(sfConfig::get('app_sfNestedComment_sort_type', 'desc'));
+  }
+  
+  public function recent()
+  {
+    return $this->orderByCreatedAt('desc');
   }
 
   public function level($level)

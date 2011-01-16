@@ -9,7 +9,7 @@ public function getApprovedCommentsLevel1($page = null, $max_per_page = 5)
   $query = <?php echo $foreignModel.'Query' ?>::create()->
     approved()->
     level(1)->
-    recent()->
+    sortByCreatedAt()->
     model($this);
   if (null !== $page) return $query->paginate($page, $max_per_page);
   return $query->find();
@@ -24,7 +24,7 @@ public function getApprovedComments($page = null, $max_per_page = 5)
 {
   $query = <?php echo $foreignModel.'Query' ?>::create()->
     approved()->
-    recent()->
+    sortByCreatedAt()->
     model($this);
   if (null !== $page) return $query->paginate($page, $max_per_page);
   return $query->find();
@@ -38,7 +38,7 @@ public function getApprovedComments($page = null, $max_per_page = 5)
 public function getComments($page = null, $max_per_page = 5)
 {
   return <?php echo $foreignModel.'Query' ?>::create()->
-    recent()->
+    sortByCreatedAt()->
     model($this);
   if (null !== $page) return $query->paginate($page, $max_per_page);
   return $query->find();
