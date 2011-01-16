@@ -48,7 +48,7 @@ class PluginsfNestedComment extends BasesfNestedComment
   {
     $criteria = (null == $criteria) ? new Criteria() : clone $criteria;
     $criteria->add(sfNestedCommentPeer::IS_MODERATED, false);
-    $criteria->addDescendingOrderByColumn(sfNestedCommentPeer::CREATED_AT);
+    $criteria->addAscendingOrderByColumn(sfNestedCommentPeer::CREATED_AT);
     return parent::getChildren($criteria, $con);
   }
 
