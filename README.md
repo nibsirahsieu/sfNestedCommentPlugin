@@ -1,7 +1,7 @@
 # sfNestedCommentPlugin #
 
-The `sfNestedCommentPlugin` is a symfony plugin that enabled the model(s) to be commentable. This plugin use sfPropel15Plugin as an ORM.
-This plugin support nested comment like you see in the wordpress and inspired by wordpress commenting system.
+The `sfNestedCommentPlugin` is a symfony plugin that enabled the model(s) to be commentable, and use sfPropel15Plugin as an ORM.
+This plugin inspired by wordpress commenting system, and such as wordpress, its support nested comments.
 
 ## Installation ##
   * Install the plugin
