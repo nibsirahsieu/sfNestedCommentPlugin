@@ -38,7 +38,7 @@ class sfNestedCommentTools
     return PropelQuery::from($model)->findPk($pk);
   }
 
-  public static function createCommentForm($commentableObject, $request)
+  public static function createCommentForm($commentableObject)
   {
     $comment = new sfNestedComment();
     $comment->setCommentableModel(get_class($commentableObject));
@@ -69,18 +69,7 @@ class sfNestedCommentTools
   //taken from sfPropelActAsCommentableBehavior
   static public function clean($text)
   {
-    $default_allowed_tags = Array(
-      '[a]' => '<a>',
-      '[blockquote]' => '<blockquote>',
-      '[code]' => '<code>',
-      '[em]' => '<em>',
-      '[i]' => '<i>',
-      '[p]' => '<p>',
-      '[strong]' => '<strong>',
-      '[pre]' => '<pre>'
-    );
-    
-    $allowed_html_tags = sfConfig::get('app_sfNestedComment_allowed_tags', $default_allowed_tags);
+    $allowed_html_tags = sfConfig::get('app_sfNestedComment_allowed_tags', array());
     spl_autoload_register(array('HTMLPurifier_Bootstrap', 'autoload'));
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.Doctype', 'XHTML 1.0 Strict');

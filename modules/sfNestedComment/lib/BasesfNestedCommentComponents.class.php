@@ -14,6 +14,6 @@ class BasesfNestedCommentComponents extends sfComponents
   {
     $page = sfConfig::get('app_sfNestedComment_paging', true) ? $request->getParameter('comment-page', 1) : null;
     $this->comments = sfNestedCommentTools::getComments($this->object, $request);
-    $this->commentForm = sfNestedCommentTools::createCommentForm($this->object, $request);
+    $this->commentForm = sfNestedCommentTools::createCommentForm($this->object);
   }
 }
