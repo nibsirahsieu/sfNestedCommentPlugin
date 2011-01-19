@@ -5,10 +5,9 @@
 #sfNestedComments .navigation a:visited {text-decoration: none;}
 #sfNestedComments .navigation a:active,
 #sfNestedComments .navigation a:hover {color: #ff4b33;}
-#sfNestedComments .nav-previous {float: left;width: 50%;}
+#sfNestedComments .nav-previous {float: left; text-align: left; width: 50%;}
 #sfNestedComments .nav-next {float: right;text-align: right;width: 50%;}
-#sfNestedComments #nav-above {margin: 0 0 18px 0;}
-#sfNestedComments #nav-above {display: none;}
+#sfNestedComments #nav-above {margin: 0 0 18px 0; display: none; }
 #sfNestedComments .paged #nav-above,.single #nav-above {display: block;}
 #sfNestedComments #nav-below {margin: -18px 0 0 0;}
 
@@ -69,8 +68,7 @@ h3#reply-title {margin: 18px 0;}
 table.recentcommentsavatar img.avatar {border: 0px;margin:0;}
 table.recentcommentsavatar a {border: 0px !important;background-color: transparent !important}
 td.recentcommentstextend, td.recentcommentstexttop {line-height: 1.4em;vertical-align: middle; }
-td.recentcommentsavatartop {padding:0px 0px 1px 0px;margin:0px; }
-td.recentcommentsavatarend {padding:0px 0px 1px 0px;margin:0px; }
+td.recentcommentsavatartop, td.recentcommentsavatarend {padding:0px 0px 1px 0px;margin:0px; }
 td.recentcommentstexttop {border: none !important;padding:0px 0px 0px 10px;text-align: left;}
 td.recentcommentstextend {border: none !important;padding:0px 0px 2px 10px;text-align: left;}
 
