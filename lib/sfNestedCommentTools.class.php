@@ -53,7 +53,7 @@ class sfNestedCommentTools
 
     if (sfConfig::get('app_sfNestedComment_paging', true))
     {
-      $page = $request->getParameter('page', 1);
+      $page = $request->getParameter('comment-page', 1);
     }
     if (sfConfig::get('app_sfNestedComment_nested', true))
     {
