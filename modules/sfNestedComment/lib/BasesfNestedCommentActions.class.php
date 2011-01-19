@@ -47,6 +47,8 @@ class BasesfNestedCommentActions extends sfActions
       }
       $comment->save();
 
+      $this->dispatcher->notify(new sfEvent($this, 'sf_nested_comment.add_comment', array('object' => $comment)));
+
       $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
       if($email_pref == true || ($email_pref == 'moderated' && $comment->getIsModerated()))
       {
