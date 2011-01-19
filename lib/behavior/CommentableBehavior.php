@@ -14,9 +14,15 @@ class CommentableBehavior extends Behavior
     $script = '';
     $script .= $this->addGetNbComments($builder);
     $script .= $this->AddGetComments($builder);
+    $script .= $this->addDeleteComments($builder);
     return $script;
   }
 
+  public function postDelete($builder)
+  {
+    return "\$this->deleteComments(\$con);";
+  }
+  
   public function addGetNbComments($builder)
   {
     $foreignModel = $this->getForeignTable()->getPhpName();
@@ -37,6 +43,16 @@ class CommentableBehavior extends Behavior
     ));
   }
 
+  public function addDeleteComments($builder)
+  {
+    $foreignModel = $this->getForeignTable()->getPhpName();
+    $model = $this->getTable()->getPhpName();
+    return $this->renderTemplate('deleteComments', array(
+      'model' => $model,
+      'foreignModel' => $foreignModel,
+    ));
+  }
+  
   protected function getForeignTable()
 	{
 		$database = $this->getTable()->getDatabase();
