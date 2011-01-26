@@ -1,6 +1,6 @@
 <?php use_helper('Date', 'I18N') ?>
 
-<?php echo __('A new comment has been posted on the post "%1%".', array('%1%' => $comment->getCommentableObject()->getTitle())) ?>
+<?php echo __('A new comment has been posted on the post "%1%".', array('%1%' => $comment->getCommentableObject()->__toString())) ?>
 
 
 <?php echo __('Author: ').$comment->getAuthorName() ?>

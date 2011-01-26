@@ -30,9 +30,9 @@
           <?php echo __('on') ?>&nbsp;
           <?php if ($callable = sfConfig::get('app_sfNestedComment_url_method')): ?>
             <?php $url = call_user_func($callable, $commentableObject) ?>
-          <a href="<?php echo url_for($url).'#comment-'.$comment->getId() ?>"><?php echo sfNestedCommentTools::ellipsis($commentableObject->getTitle()) ?></a>
+          <a href="<?php echo url_for($url).'#comment-'.$comment->getId() ?>"><?php echo sfNestedCommentTools::ellipsis($commentableObject->__toString()) ?></a>
           <?php else: ?>
-            <?php echo sfNestedCommentTools::ellipsis($commentableObject->getTitle()) ?>
+            <?php echo sfNestedCommentTools::ellipsis($commentableObject->__toString()) ?>
           <?php endif; ?>
         </td>
       </tr>
