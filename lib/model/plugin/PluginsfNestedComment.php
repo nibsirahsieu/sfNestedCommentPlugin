@@ -79,27 +79,6 @@ class PluginsfNestedComment extends BasesfNestedComment
     return $this->getChildren($criteria, $con);
   }
 
-  public function getChildren($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collNestedSetChildren || null !== $criteria) {
-			if ($this->isLeaf() || ($this->isNew() && null === $this->collNestedSetChildren)) {
-				// return empty collection
-				$this->initNestedSetChildren();
-			} else {
-				$collNestedSetChildren = sfNestedCommentQuery::create(null, $criteria)
-          ->setQueryKey('get children')
-	  			->childrenOf($this)
-	  			->orderByBranch()
-					->find($con);
-				if (null !== $criteria) {
-					return $collNestedSetChildren;
-				}
-				$this->collNestedSetChildren = $collNestedSetChildren;
-			}
-		}
-		return $this->collNestedSetChildren;
-	}
-
   public function getCommentableObject()
   {
     $scope = $this->getSfCommentableModelId();
