@@ -14,7 +14,7 @@ function comment_pagination($pager, $uri, $sf_params, $prev_text = 'Previous', $
     if ($sort == 'asc')
     {
       if ($pager->getPage() != 1) {
-        $navigation .= '<div class="nav-previous"><span class="meta-nav">&larr;</span><a class="comment-link" href="'.formatUrlFromParameters($uri.$pager->getPreviousPage(), $prms).'">'.__($prev_text).'</a></div>';
+        $navigation .= '<div class="nav-prev"><span class="meta-nav">&larr;</span><a class="comment-link" href="'.formatUrlFromParameters($uri.$pager->getPreviousPage(), $prms).'">'.__($prev_text).'</a></div>';
       }
       if ($pager->getPage() != $pager->getLastPage()) {
         $navigation .= '<div class="nav-next"><a class="comment-link" href="'.formatUrlFromParameters($uri.$pager->getNextPage(), $prms).'">'.__($next_text).'</a><span class="meta-nav">&rarr;</span></div>';
@@ -26,7 +26,7 @@ function comment_pagination($pager, $uri, $sf_params, $prev_text = 'Previous', $
       $navigation .= '<div class="nav-next"><a class="comment-link" href="'.formatUrlFromParameters($uri.$pager->getPreviousPage(), $prms).'">'.__($next_text).'</a><span class="meta-nav">&rarr;</span></div>';
       }
       if ($pager->getPage() != $pager->getLastPage()) {
-        $navigation .= '<div class="nav-previous"><span class="meta-nav">&larr;</span><a class="comment-link" href="'.formatUrlFromParameters($uri.$pager->getNextPage(), $prms).'">'.__($prev_text).'</a></div>';
+        $navigation .= '<div class="nav-prev"><span class="meta-nav">&larr;</span><a class="comment-link" href="'.formatUrlFromParameters($uri.$pager->getNextPage(), $prms).'">'.__($prev_text).'</a></div>';
       }
     }
     $navigation .= '</div>';

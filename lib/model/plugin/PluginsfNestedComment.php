@@ -7,14 +7,14 @@ class PluginsfNestedComment extends BasesfNestedComment
   {
     return $this->getContent();
   }
-  
+
   public function findAndCreateRoot($scope)
   {
     $root = sfNestedCommentQuery::create()->findRoot($scope);
     if (null === $root)
     {
       $root = new sfNestedComment();
-      $root->setExtra($scope);
+      $root->setSfCommentableModelId($scope);
       $root->makeRoot();
     }
     return $root;
@@ -24,7 +24,7 @@ class PluginsfNestedComment extends BasesfNestedComment
   {
     if (!$this->isReply())
     {
-      $root = $this->findAndCreateRoot($this->getExtra());
+      $root = $this->findAndCreateRoot($this->getSfCommentableModelId());
       if ($this->isNew()) $this->insertAsLastChildOf($root);
     }
     else
@@ -44,20 +44,68 @@ class PluginsfNestedComment extends BasesfNestedComment
     return parent::preSave($con);
   }
 
+  public function  postSave(PropelPDO $con = null)
+  {
+    $this->updateCommentCounterObject($con);
+    return parent::postSave($con);
+  }
+
+  public function  postDelete(PropelPDO $con = null)
+  {
+    $this->updateCommentCounterObject($con);
+    return parent::postDelete($con);
+  }
+
+  protected function updateCommentCounterObject(PropelPDO $con = null)
+  {
+    $commentable = $this->getsfNestedCommentableModel($con);
+    $comments = sfNestedCommentQuery::create()
+      ->filterBySfCommentableModelId($commentable->getId())
+      ->count($con);
+    $approveds = sfNestedCommentQuery::create()
+      ->approved()
+      ->filterBySfCommentableModelId($commentable->getId())
+      ->count($con);
+    $commentable->setNbApprovedComments($approveds);
+    $commentable->setNbComments($comments);
+    $commentable->save($con);
+  }
+  
   public function getApprovedChildren($criteria = null, PropelPDO $con = null)
   {
     $criteria = (null == $criteria) ? new Criteria() : clone $criteria;
     $criteria->add(sfNestedCommentPeer::IS_MODERATED, false);
     $criteria->addAscendingOrderByColumn(sfNestedCommentPeer::CREATED_AT);
-    return parent::getChildren($criteria, $con);
+    return $this->getChildren($criteria, $con);
   }
+
+  public function getChildren($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collNestedSetChildren || null !== $criteria) {
+			if ($this->isLeaf() || ($this->isNew() && null === $this->collNestedSetChildren)) {
+				// return empty collection
+				$this->initNestedSetChildren();
+			} else {
+				$collNestedSetChildren = sfNestedCommentQuery::create(null, $criteria)
+          ->setQueryKey('get children')
+	  			->childrenOf($this)
+	  			->orderByBranch()
+					->find($con);
+				if (null !== $criteria) {
+					return $collNestedSetChildren;
+				}
+				$this->collNestedSetChildren = $collNestedSetChildren;
+			}
+		}
+		return $this->collNestedSetChildren;
+	}
 
   public function getCommentableObject()
   {
-    $scope = $this->getExtra();
+    $scope = $this->getSfCommentableModelId();
     if (!isset($this->commentableObjects[$scope]))
     {
-      $commentableObject = sfNestedCommentTools::getCommentableObject($this->getCommentableModel(), $this->getCommentableId());
+      $commentableObject = sfNestedCommentTools::getCommentableObject($this->getsfNestedCommentableModel());
       $this->commentableObjects[$scope] = $commentableObject;
     }
     return $this->commentableObjects[$scope];

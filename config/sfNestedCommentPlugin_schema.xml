@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="propel" package="plugins.sfNestedCommentPlugin.lib.model" defaultIdMethod="native">
+  <table name="sf_nested_commentable_model" phpName="sfNestedCommentableModel">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="commentable_model" type="varchar" size="30" required="true" />
+    <column name="commentable_id" type="integer" required="true" />
+    <column name="nb_comments" type="integer" default="0" />
+    <column name="nb_approved_comments" type="integer" default="0" />
+    <index>
+      <index-column name="commentable_model" />
+      <index-column name="commentable_id" />
+    </index>
+  </table>
+
   <table name="sf_nested_comment" phpName="sfNestedComment">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
     <column name="author_name" type="varchar" size="255" />
@@ -7,26 +19,20 @@
     <column name="author_url" type="varchar" size="255" />
     <column name="content" type="longvarchar" />
     <column name="is_moderated" type="boolean" default="false" />
-    <column name="commentable_model" type="varchar" size="30" />
-    <column name="commentable_id" type="integer" />
     <column name="user_id" type="integer" />
     <column name="sf_comment_id" type="integer" />
     <foreign-key foreignTable="sf_nested_comment" onDelete="cascade">
       <reference local="sf_comment_id" foreign="id" />
     </foreign-key>
-    <column name="extra" type="varchar" size="255" required="true" />
+    <column name="sf_commentable_model_id" type="integer" required="true" />
+    <foreign-key foreignTable="sf_nested_commentable_model" onDelete="cascade">
+      <reference local="sf_commentable_model_id" foreign="id" />
+    </foreign-key>
     <column name="created_at" type="timestamp" />
     <column name="updated_at" type="timestamp" />
     <behavior name="nested_set">
       <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="extra" />
+      <parameter name="scope_column" value="sf_commentable_model_id" />
     </behavior>
-    <index>
-      <index-column name="extra" />
-    </index>
-     <index>
-      <index-column name="commentable_model" />
-      <index-column name="commentable_id" />
-    </index>
   </table>
 </database>

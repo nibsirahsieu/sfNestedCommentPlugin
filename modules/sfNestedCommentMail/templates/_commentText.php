@@ -15,4 +15,6 @@
 <?php if($comment->getIsModerated()): ?>
   <?php echo __('This comment was automatically moderated and is waiting for your approval.') ?>
 <?php endif; ?>
-<a href="<?php echo $sf_request->getHost().$comment->getCommentableObject()->getUrl().'#comment-'.$comment->getId() ?>"><?php echo __('Go to comment') ?></a>
+<?php if ($callable = sfConfig::get('app_sfNestedComment_url_method')): ?>
+  <a href="<?php echo url_for(call_user_func($callable, $commentableObject), true).'#comment-'.$comment->getId() ?>"><?php echo __('Go to comment') ?></a>
+<?php endif; ?>

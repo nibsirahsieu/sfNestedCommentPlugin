@@ -6,7 +6,7 @@
  */
 public function deleteComments(PropelPDO $con)
 {
-  return <?php echo $foreignModel.'Query' ?>::create()->
-    model($this)->
-    doDelete($con);
+  return <?php echo $foreignModel.'Query' ?>::create()
+    ->model($this)
+    ->doDelete($con);
 }

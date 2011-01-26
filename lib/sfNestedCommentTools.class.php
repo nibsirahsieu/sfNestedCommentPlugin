@@ -33,17 +33,18 @@ class sfNestedCommentTools
     return $renderer;
   }
 
-  public static function getCommentableObject($model, $pk)
+  public static function getCommentableObject(BaseObject $commentModel)
   {
-    return PropelQuery::from($model)->findPk($pk);
+    return PropelQuery::from($commentModel->getCommentableModel())->findPk($commentModel->getCommentableId());
   }
 
   public static function createCommentForm($commentableObject)
   {
     $comment = new sfNestedComment();
-    $comment->setCommentableModel(get_class($commentableObject));
-    $comment->setCommentableId($commentableObject->getPrimaryKey());
-    return new sfNestedCommentFrontForm($comment);
+    $form = new sfNestedCommentFrontForm($comment);
+    $form->setDefault('commentable_model', get_class($commentableObject));
+    $form->setDefault('commentable_id', $commentableObject->getPrimaryKey());
+    return $form;
   }
 
   public static function getComments(BaseObject $commentableObject, sfWebRequest $request)
@@ -89,4 +90,14 @@ class sfNestedCommentTools
     $purifier = new HTMLPurifier($config);
     return str_replace('<a href', '<a rel="nofollow" href', $purifier->purify($text));
   }
+
+  //http://brenelz.com/blog/creating-an-ellipsis-in-php/
+  public static function ellipsis($text, $max=25, $append='&hellip;')
+  {
+    if (strlen($text) <= $max) return $text;
+    $out = substr($text,0,$max);
+    if (strpos($text,' ') === FALSE) return $out.$append;
+    return preg_replace('/\w+$/','',$out).$append;
+  }
+
 }

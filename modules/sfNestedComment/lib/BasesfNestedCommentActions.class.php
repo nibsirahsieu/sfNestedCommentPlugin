@@ -34,6 +34,10 @@ class BasesfNestedCommentActions extends sfActions
     $this->commentForm->bind($request->getParameter($this->commentForm->getName()));
     if ($this->commentForm->isValid())
     {
+      $commentable = sfNestedCommentableModelQuery::create()->model($this->commentForm->getValues())->findOneOrCreate();
+      $commentable->setCommentableId($this->commentForm->getValue('commentable_id'));
+      $commentable->setCommentableModel($this->commentForm->getValue('commentable_model'));
+
       $comment = $this->commentForm->updateObject();
       $automoderation = sfConfig::get('app_sfNestedComment_automoderation', 'first_post');
       if($automoderation === true || (($automoderation == 'first_post') && !sfNestedCommentQuery::create()->isAuthorApproved($comment->getAuthorName(), $comment->getAuthorEmail())))
@@ -45,10 +49,21 @@ class BasesfNestedCommentActions extends sfActions
       {
         $this->getUser()->setFlash('add_comment', 'normal');
       }
-      $comment->save();
-
-      $this->dispatcher->notify(new sfEvent($this, 'sf_nested_comment.add_comment', array('object' => $comment)));
-
+      $con = Propel::getConnection();
+      try
+      {
+        $con->beginTransaction();
+        $commentable->save($con);
+        $comment->setSfCommentableModelId($commentable->getId());
+        $comment->save($con);
+        $con->commit();
+      }
+      catch (Exception $e)
+      {
+        $con->rollBack();
+        throw $e;
+      }
+      
       $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
       if($email_pref == true || ($email_pref == 'moderated' && $comment->getIsModerated()))
       {

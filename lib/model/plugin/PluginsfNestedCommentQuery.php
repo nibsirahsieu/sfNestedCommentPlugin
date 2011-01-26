@@ -15,7 +15,7 @@ class PluginsfNestedCommentQuery extends BasesfNestedCommentQuery
   {
     return $this->orderByCreatedAt(sfConfig::get('app_sfNestedComment_sort_type', 'desc'));
   }
-  
+
   public function recent()
   {
     return $this->orderByCreatedAt('desc');
@@ -28,7 +28,10 @@ class PluginsfNestedCommentQuery extends BasesfNestedCommentQuery
 
   public function model($object)
   {
-    return $this->filterByCommentableModel(get_class($object))->filterByCommentableId($object->getPrimaryKey());
+    return $this->join('sfNestedComment.sfNestedCommentableModel')->
+      useQuery('sfNestedCommentableModel')->
+        model($object)->
+      endUse();
   }
 
   public function isAuthorApproved($name, $email)

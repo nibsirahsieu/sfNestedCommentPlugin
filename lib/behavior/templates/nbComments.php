@@ -1,17 +1,26 @@
 
 /**
+ * Get the associated CommentCounter (sfNestedCommentableModel) object
+ *
+ * @param      PropelPDO Optional Connection object.
+ * @return     sfNestedCommentableModel The associated sfNestedCommentableModel object.
+ * @throws     PropelException
+ */
+public function getCommentCounter(PropelPDO $con = null)
+{
+  if ($this->aCommentCounter === null && ($this->getPrimaryKey() !== null)) {
+    $this->aCommentCounter = sfNestedCommentableModelQuery::create()->model($this)->findOne($con);
+  }
+  return $this->aCommentCounter;
+}
+  
+/**
  * function to get the number of comments related to this <?php echo $model ?> class
  * @return    int
  */
 public function getNbComments()
 {
-  if (null === $this->_nb_comments)
-  {
-    $this->_nb_comments = <?php echo $foreignModel . 'Query'?>::create()->
-      model($this)->
-      count();
-  }
-  return $this->_nb_comments;
+  return $this->getCommentCounter()->getNbComments();
 }
 
 /**
@@ -20,12 +29,5 @@ public function getNbComments()
  */
 public function getNbApprovedComments()
 {
-  if (null === $this->_nb_approved_comments)
-  {
-    $this->_nb_approved_comments = <?php echo $foreignModel . 'Query'?>::create()->
-      model($this)->
-      approved()->
-      count();
-  }
-  return $this->_nb_approved_comments;
+  return $this->getCommentCounter()->getNbApprovedComments();
 }

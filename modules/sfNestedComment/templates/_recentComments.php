@@ -28,12 +28,11 @@
             <?php echo $comment->getAuthorName() ?>
           <?php endif; ?>
           <?php echo __('on') ?>&nbsp;
-          <?php if (isset($url_method)): ?>
-            <?php $url_method = $url_method instanceof sfOutputEscaper ? $url_method->getRawValue() : $url_method ?>
-            <?php $url = call_user_func($url_method, $commentableObject) ?>
-            <a href="<?php echo url_for($url).'#comment-'.$comment->getId() ?>"><?php echo $commentableObject->getStrippedTitle() ?></a>
+          <?php if ($callable = sfConfig::get('app_sfNestedComment_url_method')): ?>
+            <?php $url = call_user_func($callable, $commentableObject) ?>
+          <a href="<?php echo url_for($url).'#comment-'.$comment->getId() ?>"><?php echo sfNestedCommentTools::ellipsis($commentableObject->getTitle()) ?></a>
           <?php else: ?>
-            <?php echo $commentableObject->getStrippedTitle() ?>
+            <?php echo sfNestedCommentTools::ellipsis($commentableObject->getTitle()) ?>
           <?php endif; ?>
         </td>
       </tr>

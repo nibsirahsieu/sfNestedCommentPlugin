@@ -14,5 +14,5 @@
   <div class="comment-body">
     <?php echo $comment->getContent(ESC_RAW) ?>
   </div>
-  <div class="reply"><a href="#respond" onclick="return addComment.moveForm('comment-<?php echo $comment->getId() ?>', '<?php echo $comment->getId() ?>', 'respond', '<?php echo $comment->getCommentableId() ?>')">Reply</a></div>
+  <div class="reply"><a href="#respond" onclick="return addComment.moveForm('comment-<?php echo $comment->getId() ?>', '<?php echo $comment->getId() ?>', 'respond', '<?php echo $comment->getsfNestedCommentableModel()->getCommentableId() ?>')">Reply</a></div>
 </div>
