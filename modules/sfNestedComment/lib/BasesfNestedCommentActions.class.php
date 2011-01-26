@@ -14,7 +14,7 @@ class BasesfNestedCommentActions extends sfActions
 
     $params = array(
       'subject' => __($subject_string, array(
-                    '%1%' => $comment->getCommentableObject()->getTitle())),
+                    '%1%' => $comment->getCommentableObject()->__toString())),
       'to' => $comment->getCommentableObject()->getAuthorEmail(),
       'from' => sfConfig::get('app_sfNestedComment_from_email', 'no-reply@'.$this->getRequest()->getHost()),
       'message' => array(
