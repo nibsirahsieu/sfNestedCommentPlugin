@@ -17,7 +17,7 @@ addComment = {
     }
 
     comm.parentNode.insertBefore(respond, comm.nextSibling);
-    if ( post && postId )	post.value = postId;
+    if ( post && postId ) post.value = postId;
     parent.value = parentId;
     cancel.style.display = 'block';
 
@@ -38,9 +38,10 @@ addComment = {
     catch(e) {}
 
     return false;
-	},
+  },
 
-	I : function(e) {
-		return document.getElementById(e);
-	}
+  I : function(e) {
+    return document.getElementById(e);
+  }
 }
+
