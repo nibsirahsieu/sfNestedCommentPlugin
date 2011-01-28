@@ -54,8 +54,8 @@ class CommentableBehavior extends Behavior
   }
   
   protected function getForeignTable()
-	{
-		$database = $this->getTable()->getDatabase();
-		return $database->getTable($database->getTablePrefix() . $this->_foreign_table);
-	}
+  {
+    $database = $this->getTable()->getDatabase();
+    return $database->getTable($database->getTablePrefix() . $this->_foreign_table);
+  }
 }
