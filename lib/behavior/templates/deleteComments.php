@@ -6,7 +6,22 @@
  */
 public function deleteComments(PropelPDO $con)
 {
-  return <?php echo $foreignModel.'Query' ?>::create()
+  $comments = <?php echo $foreignModel.'Query' ?>::create()
     ->model($this)
-    ->doDelete($con);
+    ->find($con);
+  try
+  {
+    $con->beginTransaction();
+    foreach ($comments as $comment)
+    {
+      $comment->delete($con);
+    }
+    $con->commit();
+  }
+  catch (Exception $e)
+  {
+    $con->rollBack();
+    throw $e;
+  }
 }
+

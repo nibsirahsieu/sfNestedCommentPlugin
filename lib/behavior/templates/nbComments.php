@@ -9,7 +9,7 @@
 public function getCommentCounter(PropelPDO $con = null)
 {
   if ($this->aCommentCounter === null && ($this->getPrimaryKey() !== null)) {
-    $this->aCommentCounter = sfNestedCommentableModelQuery::create()->model($this)->findOne($con);
+    $this->aCommentCounter = sfNestedCommentableModelQuery::create()->model($this)->findOneOrCreate($con);
   }
   return $this->aCommentCounter;
 }
