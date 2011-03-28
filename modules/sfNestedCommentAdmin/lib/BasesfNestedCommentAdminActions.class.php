@@ -10,22 +10,24 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
     $comment = $this->getRoute()->getObject();
     $comment->setIsModerated(!$comment->getIsModerated());
     $comment->save();
+
+    $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $comment)));
+
     $this->redirect('@sf_nested_comment');
   }
 
   public function executeNew(sfWebRequest $request)
   {
     parent::executeNew($request);
-    $profile = $this->getUser()->getProfile();
     $this->parent_comment = sfNestedCommentQuery::create()->findPk($request->getParameter('id'));
     $this->form->setDefault('sf_comment_id', $this->parent_comment->getId());
     $this->form->setDefault('commentable_model', $this->parent_comment->getsfNestedCommentableModel()->getCommentableModel());
     $this->form->setDefault('commentable_id', $this->parent_comment->getsfNestedCommentableModel()->getCommentableId());
     $this->form->setDefault('sf_commentable_model_id', $this->parent_comment->getSfCommentableModelId());
-    $this->form->setDefault('author_name', (string) $profile);
-    $this->form->setDefault('author_email', $profile->getEmail());
-    $this->form->setDefault('author_url', $profile->getWebsite());
-    $this->form->setDefault('user_id', $this->getUser()->getGuardUser()->getId());
+    $this->form->setDefault('author_name', $this->getUser()->getName());
+    $this->form->setDefault('author_email', $this->getUser()->getEmail());
+    $this->form->setDefault('author_url', $this->getUser()->getWebsite());
+    $this->form->setDefault('user_id', $this->getUser()->getId());
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)
@@ -56,7 +58,7 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
               'text' => $this->getPartial('sfNestedCommentMail/replyText', array('reply' => $sf_nested_comment, 'comment' => $userComment)),
             )
         );
-        $event = $this->dispatcher->filter(new sfEvent($this, 'reply.prepare_mail_parameter'), $params);
+        $event = $this->dispatcher->filter(new sfEvent($this, 'sf_nested_comment.reply.prepare_mail_parameter'), $params);
         $params = $event->getReturnValue();
 
         sfNestedCommentTools::sendEmail($this->getMailer(), $params);

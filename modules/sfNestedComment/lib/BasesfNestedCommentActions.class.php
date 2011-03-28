@@ -22,7 +22,7 @@ class BasesfNestedCommentActions extends sfActions
         'text' => $this->getPartial('sfNestedCommentMail/commentText', array('comment' => $comment)),
       )
     );
-    $event = $this->dispatcher->filter(new sfEvent($this, 'comment.prepare_mail_parameter'), $params);
+    $event = $this->dispatcher->filter(new sfEvent($this, 'sf_nested_comment.comment.prepare_mail_parameter'), $params);
     $params = $event->getReturnValue();
     
     sfNestedCommentTools::sendEmail($this->getMailer(), $params);
@@ -63,7 +63,9 @@ class BasesfNestedCommentActions extends sfActions
         $con->rollBack();
         throw $e;
       }
-      
+
+      $this->dispatcher->notify(new sfEvent($this, 'sf_nested_comment.add', array('object' => $comment)));
+
       $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
       if($email_pref == true || ($email_pref == 'moderated' && $comment->getIsModerated()))
       {
