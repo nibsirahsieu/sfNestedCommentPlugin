@@ -9,7 +9,7 @@
 
 <?php echo __('Website: ').$comment->getAuthorUrl() ?>
 
-<?php echo __('Comment: ').$comment->getContent() ?>
+<?php echo __('Comment: ').$comment->getContent(ESC_RAW) ?>
 
 
 <?php if($comment->getIsModerated()): ?>

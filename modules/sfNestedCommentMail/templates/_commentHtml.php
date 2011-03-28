@@ -11,7 +11,7 @@
 <br/>
 <?php echo __('Comment: ') ?>
 <br/>
-<?php echo $comment->getContent() ?>
+<?php echo $comment->getContent(ESC_RAW) ?>
 <br/><br/>
 
 <?php if($comment->getIsModerated()): ?>
