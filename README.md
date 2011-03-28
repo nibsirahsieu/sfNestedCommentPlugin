@@ -22,9 +22,8 @@ This plugin inspired by wordpress commenting system, and such as wordpress, its 
         }
 
 ## How to use ##
-  * Example:
+  * Example schema:
 
-        [xml]
         <table name="section">
           <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
           <column name="title" type="VARCHAR" required="true" primaryString="true" />
@@ -33,6 +32,13 @@ This plugin inspired by wordpress commenting system, and such as wordpress, its 
         </table>
 
   * Rebuild your model
+
+  * Backend Usage
+    For backend usage (administration), your myUser.class.php must provide 4 functions:
+    * getId()
+    * getName()
+    * getEmail()
+    * getWebsite()
 
 ## Options Configuration ##
   * This plugin provide several options you can customize. See app.yml
