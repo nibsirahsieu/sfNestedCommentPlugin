@@ -5,6 +5,24 @@ require_once dirname(__FILE__).'/sfNestedCommentAdminGeneratorHelper.class.php';
 
 class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
 {
+  protected function prepareMailParameter($reply, $comment)
+  {
+    $subject_string = '%1% replied to your comment on "%2%"';
+    $params = array(
+        'subject' => __($subject_string, array(
+                      '%1%' => $reply->getAuthorName(),
+                      '%2%' => $reply->getCommentableObject()->__toString())),
+        'to' => $comment->getAuthorEmail(),
+        'from' => sfConfig::get('app_sfNestedComment_from_email', 'no-reply@'.$request->getHost()),
+        'message' => array(
+          'html' => $this->getPartial('sfNestedCommentMail/replyHtml', array('reply' => $reply, 'comment' => $comment)),
+          'text' => $this->getPartial('sfNestedCommentMail/replyText', array('reply' => $reply, 'comment' => $comment)),
+        )
+    );
+    $event = $this->dispatcher->filter(new sfEvent($this, 'sf_nested_comment.reply.prepare_mail_parameter'), $params);
+    return $event->getReturnValue();
+  }
+  
   public function executeTogglePublish(sfWebRequest $request)
   {
     $comment = $this->getRoute()->getObject();
@@ -46,21 +64,7 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
       if ($isNew && $enable_mail_alert && $sf_nested_comment->isReply())
       {
         $userComment = $sf_nested_comment->getsfNestedCommentRelatedBySfCommentId();
-        $subject_string = '%1% replied to your comment on "%2%"';
-        $params = array(
-            'subject' => __($subject_string, array(
-                          '%1%' => $sf_nested_comment->getAuthorName(),
-                          '%2%' => $sf_nested_comment->getCommentableObject()->getTitle())),
-            'to' => $userComment->getAuthorEmail(),
-            'from' => sfConfig::get('app_sfNestedComment_from_email', 'no-reply@'.$request->getHost()),
-            'message' => array(
-              'html' => $this->getPartial('sfNestedCommentMail/replyHtml', array('reply' => $sf_nested_comment, 'comment' => $userComment)),
-              'text' => $this->getPartial('sfNestedCommentMail/replyText', array('reply' => $sf_nested_comment, 'comment' => $userComment)),
-            )
-        );
-        $event = $this->dispatcher->filter(new sfEvent($this, 'sf_nested_comment.reply.prepare_mail_parameter'), $params);
-        $params = $event->getReturnValue();
-
+        $params = $this->prepareMailParameter($sf_nested_comment, $userComment);
         sfNestedCommentTools::sendEmail($this->getMailer(), $params);
       }
       

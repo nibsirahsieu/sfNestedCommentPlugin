@@ -1,7 +1,7 @@
 <?php
 class BasesfNestedCommentActions extends sfActions
 {
-  protected function sendEmailNotification($comment)
+  protected function prepareMailParameter($comment)
   {
     if($comment->getIsModerated())
     {
@@ -23,9 +23,7 @@ class BasesfNestedCommentActions extends sfActions
       )
     );
     $event = $this->dispatcher->filter(new sfEvent($this, 'sf_nested_comment.comment.prepare_mail_parameter'), $params);
-    $params = $event->getReturnValue();
-    
-    sfNestedCommentTools::sendEmail($this->getMailer(), $params);
+    return $event->getReturnValue();
   }
   
   public function executeAddComment(sfWebRequest $request)
@@ -69,7 +67,8 @@ class BasesfNestedCommentActions extends sfActions
       $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
       if($email_pref == true || ($email_pref == 'moderated' && $comment->getIsModerated()))
       {
-        $this->sendEmailNotification($comment);
+        $params = $this->prepareMailParameter($comment);
+        sfNestedCommentTools::sendEmail($this->getMailer(), $params);
       }
 
       if($request->isXmlHttpRequest())
