@@ -12,7 +12,6 @@ class sfNestedCommentForm extends BasesfNestedCommentForm
   public function configure()
   {
     $this->widgetSchema['sf_comment_id'] = new sfWidgetFormInputHidden();
-    //$this->widgetSchema['sf_commentable_model_id'] = new sfWidgetFormInputHidden();
   }
 
   public function updateContentColumn($value)

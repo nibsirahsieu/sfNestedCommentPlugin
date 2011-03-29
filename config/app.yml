@@ -20,8 +20,10 @@ all:
                                  # false: disable mail alert
                                  # true: send an email for every posted comment
                                  # moderated: send an email for every automoderated comment
-#    from_email:          johndoe@xmail.com
-    use_packaged_style:   true
+    from_email:             administrator@xmail.com # change this to suite your need, if you set mail_alert to true or moderated
+    url_commentable_method: false  # method or class function to generate the url to show the commentable object (example: module/action?slug=symfony-is-rock)
+                                   # example value: [sfSimpleBlogTools, generatePostUri]
+    use_packaged_style:     true   # use plugin's stylesheet
     allowed_tags:
       a:              <a>
       blockquote:     <blockquote>

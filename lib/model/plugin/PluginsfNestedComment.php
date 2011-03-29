@@ -97,6 +97,6 @@ class PluginsfNestedComment extends BasesfNestedComment
 
   public function getCommentableTitle()
   {
-    return $this->getCommentableObject()->getTitle();
+    return $this->getCommentableObject()->__toString();
   }
 }
