@@ -34,11 +34,11 @@ This plugin inspired by wordpress commenting system, and such as wordpress, its 
   * Rebuild your model
 
   * Backend Usage
-    For backend usage (administration), your myUser.class.php must provide 4 functions:
-    * getId()
-    * getName()
-    * getEmail()
-    * getWebsite()
+        For backend usage (administration), your myUser.class.php must provide 4 functions:
+        * getId()
+        * getName()
+        * getEmail()
+        * getWebsite()
 
 ## Options Configuration ##
   * This plugin provide several options you can customize. See app.yml
