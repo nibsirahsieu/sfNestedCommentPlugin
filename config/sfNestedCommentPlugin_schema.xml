@@ -35,4 +35,13 @@
       <parameter name="scope_column" value="sf_commentable_model_id" />
     </behavior>
   </table>
+
+  <table name="sf_nested_comment_mail_queue" phpName="sfNestedCommentMailQueue">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="message" type="clob" required="true" description="Message to sent" />
+    <column name="attempts" type="smallint" default="0" />
+    <column name="success" type="boolean" default="false" />
+    <column name="last_attempt" type="timestamp" />
+    <column name="updated_at" type="timestamp" />
+  </table>
 </database>
