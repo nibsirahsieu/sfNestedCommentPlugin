@@ -1,3 +1,4 @@
+<?php use_helper('sfNestedComment') ?>
 <?php $use_gravatar = sfConfig::get('app_sfNestedComment_use_gravatar', true) ?>
 <?php if ($use_gravatar): ?>
   <?php use_helper('Gravatar') ?>
@@ -28,9 +29,8 @@
             <?php echo $comment->getAuthorName() ?>
           <?php endif; ?>
           <?php echo __('on') ?>&nbsp;
-          <?php if ($callable = sfConfig::get('app_sfNestedComment_url_commentable_method')): ?>
-            <?php $url = call_user_func($callable, $commentableObject) ?>
-          <a href="<?php echo url_for($url).'#comment-'.$comment->getId() ?>"><?php echo sfNestedCommentTools::ellipsis($commentableObject->__toString()) ?></a>
+          <?php if (false !== $url = url_for_commentable_object($commentableObject)): ?>
+            <a href="<?php echo $url.'#comment-'.$comment->getId() ?>"><?php echo sfNestedCommentTools::ellipsis($commentableObject->__toString()) ?></a>
           <?php else: ?>
             <?php echo sfNestedCommentTools::ellipsis($commentableObject->__toString()) ?>
           <?php endif; ?>
