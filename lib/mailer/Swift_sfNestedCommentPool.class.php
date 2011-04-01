@@ -30,14 +30,13 @@ class Swift_sfNestedCommentPool extends Swift_PropelSpool
       try
       {
         $count += $transport->send($message, $failedRecipients);
-        $object->success(true);
+        $object->mailSent();
       }
       catch (Exception $e)
       {
-        $object->fail();
+        $object->mailUnsent();
       }
-      $object->save();
-      
+
       if ($this->getTimeLimit() && (time() - $time) >= $this->getTimeLimit())
       {
         break;

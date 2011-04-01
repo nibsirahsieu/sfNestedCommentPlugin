@@ -1,17 +1,17 @@
 <?php
 class PluginsfNestedCommentMailQueue extends BasesfNestedCommentMailQueue
 {
-  public function fail()
+  public function mailUnsent()
   {
     $this->setSuccess(false);
     $this->setAttempts($this->getAttempts() + 1);
     $this->setLastAttempt(time());
-    return $this;
+    $this->save();
   }
 
-  public function success()
+  public function mailSent()
   {
     $this->setSuccess(true);
-    return $this;
+    $this->save();
   }
 }
