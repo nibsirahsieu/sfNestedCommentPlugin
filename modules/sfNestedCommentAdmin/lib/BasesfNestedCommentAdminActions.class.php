@@ -13,7 +13,7 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
                       '%1%' => $reply->getAuthorName(),
                       '%2%' => $reply->getCommentableObject()->__toString())),
         'to' => $comment->getAuthorEmail(),
-        'from' => sfConfig::get('app_sfNestedComment_from_email', 'no-reply@'.$request->getHost()),
+        'from' => sfConfig::get('app_sfNestedComment_from_email', 'no-reply@'.$this->getRequest()->getHost()),
         'message' => array(
           'html' => $this->getPartial('sfNestedCommentMail/replyHtml', array('reply' => $reply, 'comment' => $comment)),
           'text' => $this->getPartial('sfNestedCommentMail/replyText', array('reply' => $reply, 'comment' => $comment)),
@@ -58,6 +58,8 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
 
       $sf_nested_comment = $form->save();
 
+      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $sf_nested_comment)));
+      
       $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
       $enable_mail_alert = $email_pref === true || $email_pref == 'moderated';
 
@@ -68,8 +70,7 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
         sfNestedCommentTools::sendEmail($this->getMailer(), $params);
       }
       
-      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $sf_nested_comment)));
-
+      $this->getUser()->setFlash('notice', $notice);
       $this->redirect('@sf_nested_comment');
     }
     else
