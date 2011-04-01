@@ -1,35 +1,41 @@
 # default values
 all:
   sfNestedComment:
-    use_ajax:            true  # enable posting of comments in Ajax
-    max_recent:          5     # number of comments to display in the recent sidebar widget
-    enable:              true  # enable comments by default on new commentable object
-    use_gravatar:        true  # use gravatar (depend on sfGravatarPlugin)
-    automoderation:      first_post  # triggers the automoderation of comments. Possible values are:
-                         # true: comments are not published until a moderator accepts them
-                         # first_post: the first comment of a user must be accepted, subsequent posts are accepted automatically
-                         # false: comments are automatically accepted and published
+    #frontend settings
+    use_ajax:                true  # enable posting of comments in Ajax
+    max_recent:              5     # number of comments to display in the recent sidebar widget
+    recent_max_title_length: 25    # the length of recent comments characters to display
+    enable:                  true  # enable comments by default on new commentable object
+    use_gravatar:            true  # use gravatar (depend on sfGravatarPlugin)
+    nested:                  true    # enable nested comments
+    nested_depth:            3       # max depth of comments
+    paging:                  true    # enable comments pagination
+    max_per_page:            5       # number of comments to display
+    sort_type:               desc    # sorting method to dipslay comments
 
-    nested:              true    # enable nested comments
-    nested_depth:        3       # max depth of comments
-    paging:              true    # enable comments pagination
-    max_per_page:        5       # number of comments to display
-    sort_type:           desc    # sorting method to dipslay comments
-    mail_alert:          false   # send an email to the blog owner when a comment is posted.
-                                 # Possible values are:
-                                 # false: disable mail alert
-                                 # true: send an email for every posted comment
-                                 # moderated: send an email for every automoderated comment
+    #mail settings
+    mail_alert:              false   # send an email to the blog owner when a comment is posted.
+                                     # Possible values are:
+                                     # false: disable mail alert
+                                     # true: send an email for every posted comment
+                                     # moderated: send an email for every automoderated comment
+    automoderation:         first_post  # triggers the automoderation of comments. Possible values are:
+                            # true: comments are not published until a moderator accepts them
+                            # first_post: the first comment of a user must be accepted, subsequent posts are accepted automatically
+                            # false: comments are automatically accepted and published
     from_email:             administrator@xmail.com # change this to suite your need, if you set mail_alert to true or moderated
-    url_commentable_method: false  # method or class function to generate the url to show the commentable object (example: module/action?slug=symfony-is-rock)
+    max_attempts:           3  # how many times the mail delivery should be attempted before flagging it as failed
+
+    #other settings
+    url_commentable_method: false  # static method or function to generate the url to show the commentable object (example: module/action?slug=symfony-is-rock)
                                    # example value: [sfSimpleBlogTools, generatePostUri]
     use_packaged_style:     true   # use plugin's stylesheet
     allowed_tags:
-      a:              <a>
-      blockquote:     <blockquote>
-      code:           <code>
-      em:             <em>
-      i:              <i>
-      p:              <p>
-      strong:         <strong>
-      pre:            <pre>
+      a:                    <a>
+      blockquote:           <blockquote>
+      code:                 <code>
+      em:                   <em>
+      i:                    <i>
+      p:                    <p>
+      strong:               <strong>
+      pre:                  <pre>

@@ -92,12 +92,12 @@ class sfNestedCommentTools
   }
 
   //http://brenelz.com/blog/creating-an-ellipsis-in-php/
-  public static function ellipsis($text, $max=25, $append='&hellip;')
+  public static function ellipsis($text, $append='&hellip;')
   {
+    $max = sfConfig::get('app_sfNestedComment_recent_max_title_length', 25);
     if (strlen($text) <= $max) return $text;
     $out = substr($text,0,$max);
     if (strpos($text,' ') === FALSE) return $out.$append;
     return preg_replace('/\w+$/','',$out).$append;
   }
-
 }
