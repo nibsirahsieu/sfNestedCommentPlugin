@@ -1,6 +1,6 @@
 # sfNestedCommentPlugin #
 
-The `sfNestedCommentPlugin` is a symfony plugin that enabled the model(s) to be commentable, and use sfPropel15Plugin as an ORM.
+The `sfNestedCommentPlugin` is a symfony plugin that enabled the model(s) to be commentable.
 This plugin inspired by wordpress commenting system, and such as wordpress, its support nested comments.
 
 ## Installation ##
@@ -22,23 +22,93 @@ This plugin inspired by wordpress commenting system, and such as wordpress, its 
         }
 
 ## How to use ##
-  * Example schema:
 
-        <table name="section">
-          <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
-          <column name="title" type="VARCHAR" required="true" primaryString="true" />
-          <column name="content" type="LONGVARCHAR" required="true" />
-          <behavior name="commentable" />
-        </table>
+Add the behavior in your schema. Example:
+    <table name="post">
+      <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+      <column name="title" type="VARCHAR" required="true" primaryString="true" />
+      <column name="content" type="LONGVARCHAR" required="true" />
+      <behavior name="commentable" />
+    </table>
 
-  * Rebuild your model
+Rebuild your model:
+    > ./symfony propel:build --all-classes
 
-  * Backend Usage
-        For backend usage (administration), your myUser.class.php must provide 4 functions:
-        * getId()
-        * getName()
-        * getEmail()
-        * getWebsite()
+Frontend Usage
+-------------
+
+First, activate the module in the settings.yml (apps/your_frontend_app/config/settings.yml)
+    enabled_modules:        [..., sfNestedComment]
+
+This plugin comes with two components.
+
+  - **recentComments.**
+    This component is used to display the most recent comments. In your template:
+
+        [php]
+        <?php include_component('sfNestedComment', 'recentComments') ?>
+
+    The number of comments displayed in this component is controlled by `max_recent` setting.
+    In order to make your recent comment clickable, you have to define the `url_commentable_method`.
+
+        [yml]
+        all:
+          sfNestedComment:
+            url_commentable_method: [myTools, generatePostUri]
+
+        example:
+        [php]
+        public static function generatePostUri($post, $postfix = null, $action = 'show')
+        {
+          if (sfConfig::get('app_sfSimpleBlog_use_date_in_url', false))
+          {
+            $publishedAt = strtotime($post->getPublishedAt());
+            return 'sfSimpleBlog/' . $action . '?' .
+              'year='.date('Y', $publishedAt) .
+              '&month='.date('m', $publishedAt) .
+              '&day='.date('d', $publishedAt) .
+              '&stripped_title='.$post->getStrippedTitle() .
+              $postfix;
+          }
+          else
+          {
+            return 'sfSimpleBlog/' . $action . '?stripped_title=' . $post->getStrippedTitle().$postfix;
+          }
+        }
+
+  - **showComments.**
+    This component is used to display the commentable object's comments and form comment. In your template:
+
+        [php]
+        <?php include_component('sfNestedComment', 'showComments', array('object' => $post)) ?>
+
+    By default, the comments is displayed in the nested fashion, and it is controlled by `nested` and
+    `max_depth` settings. You can disabled this feature by set the `nested` setting to false.
+
+        [yml]
+        all:
+          sfNestedComment:
+          nested: false
+
+    When the user post a comment, the request is done via ajax request. You can disable it by
+    set the `enable_ajax` to false. 
+
+Gravatar is enabled by default, and it is depends on sfGravatarPlugin, to disable it
+
+    [yml]
+    all:
+      sfNestedComment:
+        use_gravatar: false
+
+Backend Usage
+-------------
+
+    For backend usage (administration), your `myUser.class.php` must provide 4 functions:
+    * getId() : Author Id,
+    * getName() : Author Name,
+    * getEmail() : Author Email,
+    * getWebsite() : Author Website.
+
 
 ## Options Configuration ##
   * This plugin provide several options you can customize. See app.yml
