@@ -49,8 +49,8 @@ This plugin comes with two components.
         <?php include_component('sfNestedComment', 'recentComments') ?>
 
     The number of comments displayed in this component is controlled by `max_recent` setting.
-    In order to make your recent comment clickable, you have to define the `url_commentable_method`.
-
+    In order to make your recent comments clickable, you have to define the `url_commentable_method`.
+    
         [yml]
         all:
           sfNestedComment:
@@ -75,6 +75,12 @@ This plugin comes with two components.
             return 'sfSimpleBlog/' . $action . '?stripped_title=' . $post->getStrippedTitle().$postfix;
           }
         }
+    By default, the titles in the recent comments are truncated by 25.
+
+        [yml]
+        all:
+          sfNestedComment:
+            recent_max_title_length: 25
 
   - **showComments.**
     This component is used to display the commentable object's comments and form comment. In your template:
@@ -88,22 +94,30 @@ This plugin comes with two components.
         [yml]
         all:
           sfNestedComment:
-          nested: false
+            nested: false
 
-    When the user post a comment, the request is done via ajax request. You can disable it by
-    set the `enable_ajax` to false. 
+    When the user post a comment, the request is done via `Ajax` request. You can disable it by
+    set the `use_ajax` to false.
 
-Gravatar is enabled by default, and it is depends on sfGravatarPlugin, to disable it
+        [yml]
+        all:
+          sfNestedComment:
+            use_ajax: false
 
-    [yml]
-    all:
-      sfNestedComment:
-        use_gravatar: false
+    Gravatar is enabled by default, and it is depends on sfGravatarPlugin, to disable it
+
+        [yml]
+        all:
+          sfNestedComment:
+            use_gravatar: false
 
 Backend Usage
 -------------
 
-    For backend usage (administration), your `myUser.class.php` must provide 4 functions:
+Activate the module in the settings.yml (apps/your_backend_app/config/settings.yml)
+    enabled_modules:        [..., sfNestedCommentAdmin]
+
+Your `myUser.class.php` must provide 4 functions:
     * getId() : Author Id,
     * getName() : Author Name,
     * getEmail() : Author Email,
