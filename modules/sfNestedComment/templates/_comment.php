@@ -1,7 +1,7 @@
 <?php use_helper('Date') ?>
 <div id="comment-<?php echo $comment->getId() ?>">
   <div class="comment-author">
-    <?php if (sfConfig::get('app_sfNestedComment_use_gravatar', true)): ?>
+    <?php if (sfNestedCommentConfig::isGravatarEnabled()): ?>
       <?php use_helper('Gravatar') ?>
       <?php echo gravatar_image_tag($comment->getAuthorEmail(), null, 40) ?>
     <?php endif; ?>

@@ -7,12 +7,11 @@ all:
     recent_max_title_length: 25    # the length of recent comments characters to display
     enable:                  true  # enable comments by default on new commentable object
     use_gravatar:            true  # use gravatar (depend on sfGravatarPlugin)
-    nested:                  true    # enable nested comments
-    nested_depth:            3       # max depth of comments
+    nested_depth:            3       # max depth of nested comments
     paging:                  true    # enable comments pagination
     max_per_page:            5       # number of comments to display
     sort_type:               desc    # sorting method to dipslay comments
-
+    
     #mail settings
     mail_alert:              false   # send an email to the blog owner when a comment is posted.
                                      # Possible values are:

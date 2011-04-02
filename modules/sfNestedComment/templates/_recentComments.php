@@ -1,5 +1,5 @@
 <?php use_helper('sfNestedComment') ?>
-<?php $use_gravatar = sfConfig::get('app_sfNestedComment_use_gravatar', true) ?>
+<?php $use_gravatar = sfNestedCommentConfig::isGravatarEnabled() ?>
 <?php if ($use_gravatar): ?>
   <?php use_helper('Gravatar') ?>
 <?php endif; ?>

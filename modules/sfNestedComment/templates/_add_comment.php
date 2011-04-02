@@ -1,4 +1,4 @@
-<?php $use_ajax = sfConfig::get('app_sfNestedComment_use_ajax', true) ?>
+<?php $use_ajax = sfNestedCommentConfig::isAjaxEnabled() ?>
 
 <div id="respond">
   <h3 id="replay-title"><?php echo __('Leave a reply') ?>&nbsp;<small><a href="#respond" id="cancel-comment-reply-link">Cancel Reply</a></small></h3>
@@ -26,7 +26,7 @@
       beforeSend: function() { loader.show();  },
       success:function(response, textStatus) {
         jQuery('#sfNestedComments').html(response);
-        <?php if(sfConfig::get('app_sfNestedComment_nested', true)): ?>
+        <?php if(sfNestedCommentConfig::isNestedEnabled()): ?>
         jQuery('#commentlist').collapsible({
           imagehide: '<?php echo image_path('/sfNestedCommentPlugin/images/arrow-down.png') ?>',
           imageshow: '<?php echo image_path('/sfNestedCommentPlugin/images/arrow-right.png') ?>',

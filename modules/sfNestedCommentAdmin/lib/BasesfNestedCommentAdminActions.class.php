@@ -60,7 +60,7 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
 
       $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $sf_nested_comment)));
       
-      $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
+      $email_pref = sfNestedCommentConfig::isMailEnabled();
       $enable_mail_alert = $email_pref === true || $email_pref == 'moderated';
 
       if ($isNew && $enable_mail_alert && $sf_nested_comment->isReply())

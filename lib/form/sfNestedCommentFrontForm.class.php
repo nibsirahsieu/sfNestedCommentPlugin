@@ -16,13 +16,18 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
     $this->widgetSchema['author_url']->setLabel('Website');
     $this->widgetSchema['content']->setLabel('Comment (required)');
-    $allowedTags = sfConfig::get('app_sfNestedComment_allowed_tags', array());
+    $allowedTags = sfNestedCommentConfig::getAllowedTags();
     if ($allowedTags)
     {
       $this->widgetSchema->setHelp('content', __('You may use these HTML tags and attributes: ').htmlentities(implode(' ', $allowedTags)));
     }
     
-    if (sfConfig::get('app_recaptcha_enabled', false))
+    $this->widgetSchema['commentable_model'] = new sfWidgetFormInputHidden();
+    $this->widgetSchema['commentable_id'] = new sfWidgetFormInputHidden();
+    $this->validatorSchema['commentable_model'] = new sfValidatorString();
+    $this->validatorSchema['commentable_id'] = new sfValidatorInteger();
+
+    if (sfNestedCommentConfig::isRecaptchaEnabled())
     {
       $this->widgetSchema['captcha'] = new sfWidgetFormReCaptcha(array(
         'public_key' => sfConfig::get('app_recaptcha_public_key')
@@ -33,16 +38,12 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
       ));
     }
     
-    $this->widgetSchema['commentable_model'] = new sfWidgetFormInputHidden();
-    $this->widgetSchema['commentable_id'] = new sfWidgetFormInputHidden();
-    $this->validatorSchema['commentable_model'] = new sfValidatorString();
-    $this->validatorSchema['commentable_id'] = new sfValidatorInteger();
     $this->validatorSchema->setOption('allow_extra_fields', true);
     $this->validatorSchema->setOption('filter_extra_fields', true);
 
     $this->getWidgetSchema()->setFormFormatterName('comment');
   }
-  
+
   protected function doUpdateObject($values)
   {
     parent::doUpdateObject($values);
@@ -51,7 +52,7 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $commentable->setCommentableId($this->getValue('commentable_id'));
     $commentable->setCommentableModel($this->getValue('commentable_model'));
 
-    $automoderation = sfConfig::get('app_sfNestedComment_automoderation', 'first_post');
+    $automoderation = sfNestedCommentConfig::getMailAutomoderation();
     if($automoderation === true || (($automoderation == 'first_post') && !sfNestedCommentQuery::create()->isAuthorApproved($this->getObject()->getAuthorName(), $this->getObject()->getAuthorEmail())))
     {
       $this->getObject()->setIsModerated(true);

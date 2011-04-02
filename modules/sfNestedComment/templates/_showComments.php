@@ -1,8 +1,8 @@
 <?php use_helper('I18N') ?>
 <?php use_javascript('/sfNestedCommentPlugin/js/sfNestedComment.reply.js') ?>
 
-<?php $use_ajax = sfConfig::get('app_sfNestedComment_use_ajax', true) ?>
-<?php $enable_nested = sfConfig::get('app_sfNestedComment_nested', true) ?>
+<?php $use_ajax = sfNestedCommentConfig::isAjaxEnabled() ?>
+<?php $enable_nested = sfNestedCommentConfig::isNestedEnabled() ?>
 <?php if($use_ajax): ?>
   <?php use_javascript(sfConfig::get('sf_jquery_web_dir') . '/js/'.sfConfig::get('sf_jquery_core'), 'first') ?>
   <?php if($enable_nested): ?>

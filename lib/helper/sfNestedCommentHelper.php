@@ -1,7 +1,7 @@
 <?php
 function url_for_commentable_object($commentableObject, $absolute = false)
 {
-  $callable = sfConfig::get('app_sfNestedComment_url_commentable_method', false);
+  $callable = sfNestedCommentConfig::getUrlCommentableCallable();
   if ($callable)
   {
     return url_for(call_user_func($callable, $commentableObject), $absolute);
@@ -11,7 +11,7 @@ function url_for_commentable_object($commentableObject, $absolute = false)
 
 function url_for_commentable_object_app($commentableObject, $appname, $absolute = false, $env = null, $debug = false)
 {
-  $callable = sfConfig::get('app_sfNestedComment_url_commentable_method', false);
+  $callable = sfNestedCommentConfig::getUrlCommentableCallable();
   if ($callable)
   {
     return url_for_app($appname, call_user_func($callable, $commentableObject), $absolute, $env, $debug);

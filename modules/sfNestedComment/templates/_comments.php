@@ -1,8 +1,9 @@
 <?php if (method_exists($object instanceof sfOutputEscaper ? $object->getRawValue() : $object, 'allowComments')): ?>
-  <?php $enable_comment = sfConfig::get('app_sfNestedComment_enabled', true) && $object->allowComments() ?>
+  <?php $enable_comment = sfNestedCommentConfig::isCommentEnabled() && $object->allowComments() ?>
 <?php else: ?>
-  <?php $enable_comment = sfConfig::get('app_sfNestedComment_enabled', true) ?>
+  <?php $enable_comment = sfNestedCommentConfig::isCommentEnabled() ?>
 <?php endif; ?>
+
 <?php if(0 < $nb_comments = $object->getNbApprovedComments()): ?>
   <h3 id="comments-title"><?php echo format_number_choice('[1]One comment so far|(1,+Inf]%1% comments so far', array('%1%' => $nb_comments), $nb_comments) ?></h3>
 <?php endif; ?>

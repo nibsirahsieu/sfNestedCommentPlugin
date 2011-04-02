@@ -30,7 +30,7 @@ class BasesfNestedCommentActions extends sfActions
   {
     $this->commentForm = new sfNestedCommentFrontForm();
     $bindValues = $request->getParameter($this->commentForm->getName());
-    if (sfConfig::get('app_recaptcha_enabled', false))
+    if (sfNestedCommentConfig::isRecaptchaEnabled())
     {
       $captcha = array(
         'recaptcha_challenge_field' => $request->getParameter('recaptcha_challenge_field'),
@@ -47,7 +47,7 @@ class BasesfNestedCommentActions extends sfActions
       
       $this->dispatcher->notify(new sfEvent($this, 'sf_nested_comment.add', array('object' => $comment)));
 
-      $email_pref = sfConfig::get('app_sfNestedComment_mail_alert', false);
+      $email_pref = sfNestedCommentConfig::isMailEnabled();
       if($email_pref == true || ($email_pref == 'moderated' && $comment->getIsModerated()))
       {
         $params = $this->prepareMailParameter($comment);

@@ -13,7 +13,7 @@ class PluginsfNestedCommentQuery extends BasesfNestedCommentQuery
 
   public function sortByCreatedAt()
   {
-    return $this->orderByCreatedAt(sfConfig::get('app_sfNestedComment_sort_type', 'desc'));
+    return $this->orderByCreatedAt(sfNestedCommentConfig::getSortType());
   }
 
   public function recent()

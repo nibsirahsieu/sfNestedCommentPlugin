@@ -19,7 +19,7 @@ class sfNestedCommentTools
       $renderer->addChild($comment);
       if ($comment->hasChildren() && $nested)
       {
-        $depth = sfConfig::get('app_sfNestedComment_nested_depth', 3);
+        $depth = sfNestedCommentConfig::getNestedDepth();
         $r = ($comment->getTreeLevel() >= $depth) ? $renderer : $renderer[$comment->getId()];
         self::addRecursiveComments($comment->getApprovedChildren(), $r, $nested);
       }
@@ -52,17 +52,17 @@ class sfNestedCommentTools
     $page = null;
     $comments = array();
 
-    if (sfConfig::get('app_sfNestedComment_paging', true))
+    if (sfNestedCommentConfig::isPagingEnabled())
     {
       $page = $request->getParameter('comment-page', 1);
     }
-    if (sfConfig::get('app_sfNestedComment_nested', true))
+    if (sfNestedCommentConfig::isNestedEnabled())
     {
-      $comments = $commentableObject->getApprovedCommentsLevel1($page, sfConfig::get('app_sfNestedComment_max_per_page', 5));
+      $comments = $commentableObject->getApprovedCommentsLevel1($page, sfNestedCommentConfig::getMaxPerPageComment());
     }
     else
     {
-      $comments = $commentableObject->getApprovedComments($page, sfConfig::get('app_sfNestedComment_max_per_page', 5));
+      $comments = $commentableObject->getApprovedComments($page, sfNestedCommentConfig::getMaxPerPageComment());
     }
     return $comments;
   }
@@ -70,7 +70,7 @@ class sfNestedCommentTools
   //taken from sfPropelActAsCommentableBehavior
   static public function clean($text)
   {
-    $allowed_html_tags = sfConfig::get('app_sfNestedComment_allowed_tags', array());
+    $allowed_html_tags = sfNestedCommentConfig::getAllowedTags();
     spl_autoload_register(array('HTMLPurifier_Bootstrap', 'autoload'));
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
@@ -94,7 +94,7 @@ class sfNestedCommentTools
   //http://brenelz.com/blog/creating-an-ellipsis-in-php/
   public static function ellipsis($text, $append='&hellip;')
   {
-    $max = sfConfig::get('app_sfNestedComment_recent_max_title_length', 25);
+    $max = sfNestedCommentConfig::getMaxRecentTitleLength();
     if (strlen($text) <= $max) return $text;
     $out = substr($text,0,$max);
     if (strpos($text,' ') === FALSE) return $out.$append;
