@@ -16,6 +16,11 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
     $this->widgetSchema['author_url']->setLabel('Website');
     $this->widgetSchema['content']->setLabel('Comment (required)');
+    $allowedTags = sfNestedCommentConfig::getAllowedTags();
+    if ($allowedTags)
+    {
+      $this->widgetSchema->setHelp('content', __('You may use these HTML tags and attributes: ').htmlentities(implode(' ', $allowedTags)));
+    }
     
     if (sfConfig::get('app_recaptcha_enabled', false))
     {
