@@ -1,7 +1,8 @@
 # sfNestedCommentPlugin #
 
 The `sfNestedCommentPlugin` is a symfony plugin that enabled the model(s) to be commentable.
-This plugin inspired by wordpress commenting system, and such as wordpress, its support nested comments.
+Inspired by wordpress commenting system, its support nested comments and enabled by default.
+This plugin is for symfony 1.4 and [sfPropel15Plugin](http://www.symfony-project.org/plugins/sfPropel15Plugin).
 
 ## Installation ##
   * Install the plugin
@@ -16,7 +17,7 @@ This plugin inspired by wordpress commenting system, and such as wordpress, its 
           public function setup()
           {
             ...
-            $this->enablePlugins('sfNestedCommentPlugin');
+            $this->enablePlugins('...', 'sfNestedCommentPlugin');
             ...
           }
         }
@@ -57,6 +58,7 @@ This plugin comes with two components.
             url_commentable_method: [myTools, generatePostUri]
 
         example:
+
         [php]
         public static function generatePostUri($post, $postfix = null, $action = 'show')
         {
@@ -75,36 +77,46 @@ This plugin comes with two components.
             return 'sfSimpleBlog/' . $action . '?stripped_title=' . $post->getStrippedTitle().$postfix;
           }
         }
-    By default, the titles in the recent comments are truncated by 25.
+
+    By default, the titles in the recent comments are truncated by 25. You can change it by change the
+    value of `recent_max_title_length`.
 
         [yml]
         all:
           sfNestedComment:
-            recent_max_title_length: 25
+            recent_max_title_length: 30
 
   - **showComments.**
-    This component is used to display the commentable object's comments and form comment. In your template:
+    This component is used to display the commentable object's comments and comment form. In your template:
 
         [php]
         <?php include_component('sfNestedComment', 'showComments', array('object' => $post)) ?>
 
-    By default, the comments is displayed in the nested fashion, and it is controlled by `nested` and
-    `max_depth` settings. You can disabled this feature by set the `nested` setting to false.
+    By default, the comments is displayed in the nested fashion, and it is controlled by `max_depth` setting. You can disabled this feature by set the `max_depth` to 0.
 
         [yml]
         all:
           sfNestedComment:
-            nested: false
+            max_depth: 0
 
-    When the user post a comment, the request is done via `Ajax` request. You can disable it by
-    set the `use_ajax` to false.
+    When the user post a comment, the request is done via `Ajax`. You can disable it by set the `use_ajax` to false.
 
         [yml]
         all:
           sfNestedComment:
             use_ajax: false
 
-    Gravatar is enabled by default, and it is depends on sfGravatarPlugin, to disable it
+    If you want to integrate recaptcha, enabled the recaptcha setting in your `app.yml`. Note, this setting require [sfFormExtraPlugin](http://www.symfony-project.org/plugins/sfFormExtraPlugin)
+
+        [yml]
+        all:
+          recaptcha:
+            enabled: true
+            # visit http://recaptcha.net/
+            public_key:     your_public_recaptcha_key
+            private_key:    your_private_recaptcha_key
+
+    Gravatar is enabled by default, and it is depends on [sfGravatarPlugin](http://www.symfony-project.org/plugins/sfGravatarPlugin), to disable it
 
         [yml]
         all:
