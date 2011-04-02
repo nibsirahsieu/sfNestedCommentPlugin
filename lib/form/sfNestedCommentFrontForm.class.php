@@ -16,7 +16,18 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
     $this->widgetSchema['author_url']->setLabel('Website');
     $this->widgetSchema['content']->setLabel('Comment (required)');
+    
+    if (sfConfig::get('app_recaptcha_enabled', false))
+    {
+      $this->widgetSchema['captcha'] = new sfWidgetFormReCaptcha(array(
+        'public_key' => sfConfig::get('app_recaptcha_public_key')
+      ));
 
+      $this->validatorSchema['captcha'] = new sfValidatorReCaptcha(array(
+        'private_key' => sfConfig::get('app_recaptcha_private_key')
+      ));
+    }
+    
     $this->widgetSchema['commentable_model'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['commentable_id'] = new sfWidgetFormInputHidden();
     $this->validatorSchema['commentable_model'] = new sfValidatorString();

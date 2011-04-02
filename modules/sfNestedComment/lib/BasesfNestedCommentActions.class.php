@@ -29,7 +29,16 @@ class BasesfNestedCommentActions extends sfActions
   public function executeAddComment(sfWebRequest $request)
   {
     $this->commentForm = new sfNestedCommentFrontForm();
-    $this->commentForm->bind($request->getParameter($this->commentForm->getName()));
+    $bindValues = $request->getParameter($this->commentForm->getName());
+    if (sfConfig::get('app_recaptcha_enabled', false))
+    {
+      $captcha = array(
+        'recaptcha_challenge_field' => $request->getParameter('recaptcha_challenge_field'),
+        'recaptcha_response_field'  => $request->getParameter('recaptcha_response_field'),
+      );
+      $bindValues = array_merge($bindValues, array('captcha' => $captcha));
+    }
+    $this->commentForm->bind($bindValues);
     if ($this->commentForm->isValid())
     {
       $commentable = sfNestedCommentableModelQuery::create()->model($this->commentForm->getValues())->findOneOrCreate();
