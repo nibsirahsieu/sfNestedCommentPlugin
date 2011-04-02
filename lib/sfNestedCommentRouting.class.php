@@ -1,5 +1,5 @@
 <?php
-class sfNestedCommentConfig
+class sfNestedCommentRouting
 {
   static public function listenToRoutingLoadConfigurationEvent(sfEvent $event)
   {
