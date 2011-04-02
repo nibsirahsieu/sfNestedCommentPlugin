@@ -78,7 +78,7 @@ This plugin comes with two components.
           }
         }
 
-    By default, the titles in the recent comments are truncated by 25. You can change it by change the
+    By default, the titles in the recent comments are truncated to 25. You can change it by change the
     value of `recent_max_title_length`.
 
         [yml]
@@ -116,6 +116,14 @@ This plugin comes with two components.
             public_key:     your_public_recaptcha_key
             private_key:    your_private_recaptcha_key
 
+    To disabled comment per commentable object, your object must provide `allowComments()` function.
+
+        [php]
+        public function allowComments()
+        {
+          return false;
+        }
+
     Gravatar is enabled by default, and it is depends on [sfGravatarPlugin](http://www.symfony-project.org/plugins/sfGravatarPlugin), to disable it
 
         [yml]
@@ -129,12 +137,65 @@ Backend Usage
 Activate the module in the settings.yml (apps/your_backend_app/config/settings.yml)
     enabled_modules:        [..., sfNestedCommentAdmin]
 
-Your `myUser.class.php` must provide 4 functions:
-    * getId() : Author Id,
-    * getName() : Author Name,
-    * getEmail() : Author Email,
-    * getWebsite() : Author Website.
 
+Email Notification
+------------------
+
+In order this feature to work, your object (commentable object) must provide following functions
+
+    1. __toString(). example: title of post.
+    2. getAuthorEmail(). The email to receive an incoming comment.
+
+        [php]
+        public function getAuthorEmail()
+        {
+          return $this->getAuthor()->getEmail();
+        }
+
+    and in `myUser.class.php` (for backend application):
+
+    1. getAuthorId() : Author Id,
+    2. getAuthorName() : Author Name,
+    3. getAuthorEmail() : Author Email,
+    4. getAuthorWebsite() : Author Website.
+
+There several options you may consider when you enabled Email notification.
+
+    1.  mail_alert.
+        This setting used to enabled email notification. Possible values are:
+        * true: send an email for every posted comment
+        * moderated: send an email for every automoderated comment
+        * false: disable mail notification
+
+    2.  automoderation.
+        Possible values are:
+        * true: comments are not published until a moderator accepts them
+        * first_post: the first comment of a user must be accepted, subsequent posts are accepted automatically
+        * false: comments are automatically accepted and published
+
+    3.  from_email. email sender
+    4.  max_attempts.
+        how many times the mail delivery should be attempted before flagging it as failed
+
+Messages Spooling
+-----------------
+
+In the case you want to enable messages spooling, you can use the class provided by this plugin.
+
+    [yml]
+    mailer:
+    param:
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host:          smtp.gmail.com
+          port:          465
+          encryption:    ssl
+          username:      gmail_username
+          password:      gmail_password
+      delivery_strategy: spool
+      spool_class:       Swift_sfNestedCommentPool
+      spool_arguments:   [ sfNestedCommentMailQueue, message, spooledMessages ]
 
 ## Options Configuration ##
   * This plugin provide several options you can customize. See app.yml

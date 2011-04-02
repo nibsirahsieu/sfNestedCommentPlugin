@@ -42,10 +42,10 @@ class BasesfNestedCommentAdminActions extends autoSfNestedCommentAdminActions
     $this->form->setDefault('commentable_model', $this->parent_comment->getsfNestedCommentableModel()->getCommentableModel());
     $this->form->setDefault('commentable_id', $this->parent_comment->getsfNestedCommentableModel()->getCommentableId());
     $this->form->setDefault('sf_commentable_model_id', $this->parent_comment->getSfCommentableModelId());
-    $this->form->setDefault('author_name', $this->getUser()->getName());
-    $this->form->setDefault('author_email', $this->getUser()->getEmail());
-    $this->form->setDefault('author_url', $this->getUser()->getWebsite());
-    $this->form->setDefault('user_id', $this->getUser()->getId());
+    $this->form->setDefault('author_name', $this->getUser()->getAuthorName());
+    $this->form->setDefault('author_email', $this->getUser()->getAuthorEmail());
+    $this->form->setDefault('author_url', $this->getUser()->getAuthorWebsite());
+    $this->form->setDefault('user_id', $this->getUser()->getAuthorId());
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)
