@@ -37,4 +37,21 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
 
     $this->getWidgetSchema()->setFormFormatterName('comment');
   }
+  
+  protected function doUpdateObject($values)
+  {
+    parent::doUpdateObject($values);
+
+    $commentable = sfNestedCommentableModelQuery::create()->model($this->getValues())->findOneOrCreate();
+    $commentable->setCommentableId($this->getValue('commentable_id'));
+    $commentable->setCommentableModel($this->getValue('commentable_model'));
+
+    $automoderation = sfConfig::get('app_sfNestedComment_automoderation', 'first_post');
+    if($automoderation === true || (($automoderation == 'first_post') && !sfNestedCommentQuery::create()->isAuthorApproved($this->getObject()->getAuthorName(), $this->getObject()->getAuthorEmail())))
+    {
+      $this->getObject()->setIsModerated(true);
+    }
+
+    $this->getObject()->setsfNestedCommentableModel($commentable);
+  }
 }
