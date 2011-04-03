@@ -86,7 +86,7 @@ class BasesfNestedCommentActions extends sfActions
   public function executeCommenting(sfWebRequest $request)
   {
     $this->forward404Unless($request->isXmlHttpRequest());
-    $commentableObject = sfNestedCommentTools::getCommentableObject($request->getParameter('commentable_model'), $request->getParameter('commentable_id'));
+    $commentableObject = PropelQuery::from($request->getParameter('commentable_model'))->findPk($request->getParameter('commentable_id'));
     $comments = sfNestedCommentTools::getComments($commentableObject, $request);
     return $this->renderPartial('sfNestedComment/comment_list', array('comments' => $comments));
   }
