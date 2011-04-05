@@ -15,32 +15,8 @@
 </div>
 
 <?php if($use_ajax): ?>
-<script type="text/javascript">
-  document.getElementById('sfNestedComment_add_comment_form').onsubmit = function () {
-    var form = jQuery('#sfNestedComment_add_comment_form');
-    loader = jQuery('#add-comment-loader');
-    jQuery.ajax({
-      type: "post",
-      url: form.attr('action'),
-      data: form.serialize(),
-      beforeSend: function() { loader.show();  },
-      success:function(response, textStatus) {
-        jQuery('#sfNestedComments').html(response);
-        <?php if(sfNestedCommentConfig::isNestedEnabled()): ?>
-        jQuery('#commentlist').collapsible({
-          imagehide: '<?php echo image_path('/sfNestedCommentPlugin/images/arrow-down.png') ?>',
-          imageshow: '<?php echo image_path('/sfNestedCommentPlugin/images/arrow-right.png') ?>',
-          defaulthide: false
-        });
-        <?php endif; ?>
-        loader.hide();
-      },
-      error:function(XMLHttpRequest, textStatus, errorThrown) {
-        jQuery('#respond').html(XMLHttpRequest.responseText)
-        loader.hide();
-      }
-    });
-    return false; 
-  };  
-</script>
+  <?php use_javascript('/sfNestedCommentPlugin/js/commentForm.js') ?>
+  <script type="text/javascript">
+    setupAjaxCommentForm(<?php echo sfNestedCommentConfig::isNestedEnabled() ?>);
+  </script>
 <?php endif; ?>

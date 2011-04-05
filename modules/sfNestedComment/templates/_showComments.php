@@ -17,38 +17,13 @@
 </div>
 
 <?php if($use_ajax): ?>
+  <?php use_javascript('/sfNestedCommentPlugin/js/listComments.js') ?>
   <?php if ($object instanceof sfOutputEscaper): ?>
     <?php $model = get_class($object->getRawValue()) ?>
   <?php else: ?>
     <?php $model = get_class($object) ?>
   <?php endif; ?>
 <script type="text/javascript">
-  function collapsibleComments()
-  {
-    <?php if($enable_nested): ?>
-    jQuery('#commentlist').collapsible({
-      imagehide: '<?php echo image_path('/sfNestedCommentPlugin/images/arrow-down.png') ?>',
-      imageshow: '<?php echo image_path('/sfNestedCommentPlugin/images/arrow-right.png') ?>',
-      defaulthide: false
-    });
-    <?php endif; ?>
-  };
-
-  jQuery(document).ready(function() {
-    jQuery('a.comment-link').live('click', function(event) {
-      var comment_list = jQuery('#sfNestedComment_comment_list');
-      comment_list.html('<?php echo image_tag('/sfNestedCommentPlugin/images/loading.gif') ?>&nbsp;<?php echo __('Loading comments...') ?>');
-      jQuery.get(this.href, {
-          commentable_id: '<?php echo $object->getPrimaryKey() ?>',
-          commentable_model: '<?php echo $model ?>'
-        }, function(response){
-        comment_list.html(response);
-        comment_list.show();
-        collapsibleComments();
-      });
-      return false;
-    });
-    collapsibleComments();
-  });
+  setupAjaxListComments('<?php echo $model ?>', '<?php echo $object->getPrimaryKey() ?>', <?php echo sfNestedCommentConfig::isNestedEnabled() ?>);
 </script>
 <?php endif; ?>
