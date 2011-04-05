@@ -3,11 +3,11 @@ class BasesfNestedCommentComponents extends sfComponents
 {
   public function executeRecentComments()
   {
-    $this->comments = sfNestedCommentQuery::create()->
-      recent()->
-      approved()->
-      limit(sfNestedCommentConfig::getMaxRecentCommet())->
-      find();
+    $this->comments = sfNestedCommentQuery::create()
+      ->recent()
+      ->approved()
+      ->limit(sfNestedCommentConfig::getMaxRecentCommet())
+      ->find();
   }
   
   public function executeShowComments(sfWebRequest $request)
