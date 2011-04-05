@@ -28,19 +28,19 @@ class PluginsfNestedCommentQuery extends BasesfNestedCommentQuery
 
   public function model($object)
   {
-    return $this->join('sfNestedComment.sfNestedCommentableModel')->
-      useQuery('sfNestedCommentableModel')->
-        model($object)->
-      endUse();
+    return $this->join('sfNestedComment.sfNestedCommentableModel')
+      ->useQuery('sfNestedCommentableModel')
+        ->model($object)
+      ->endUse();
   }
 
   public function isAuthorApproved($name, $email)
   {
-    $comment = $this->
-      filterByAuthorName($name)->
-      filterByAuthorEmail($email)->
-      approved()->
-      findOne();
+    $comment = $this
+      ->filterByAuthorName($name)
+      ->filterByAuthorEmail($email)
+      ->approved()
+      ->findOne();
       
     return $comment;
   }
