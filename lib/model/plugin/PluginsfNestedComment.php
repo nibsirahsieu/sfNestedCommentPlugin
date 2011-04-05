@@ -22,10 +22,19 @@ class PluginsfNestedComment extends BasesfNestedComment
 
   public function preSave(PropelPDO $con = null)
   {
+    if ($this->asfNestedCommentableModel && $this->sf_commentable_model_id == null)
+    {
+      $this->asfNestedCommentableModel->save($con);
+      $this->setSfCommentableModelId($this->asfNestedCommentableModel->getId());
+    }
     if (!$this->isReply())
     {
       $root = $this->findAndCreateRoot($this->getSfCommentableModelId());
-      if ($this->isNew()) $this->insertAsLastChildOf($root);
+      if ($this->isNew())
+      {
+        $this->setLeftValue(0);
+        $this->insertAsLastChildOf($root);
+      }
     }
     else
     {
