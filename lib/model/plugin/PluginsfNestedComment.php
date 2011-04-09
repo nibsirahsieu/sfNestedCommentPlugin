@@ -109,4 +109,15 @@ class PluginsfNestedComment extends BasesfNestedComment
   {
     return $this->getCommentableObject()->__toString();
   }
+  
+  public function getLink()
+  {
+    $callable = sfNestedCommentConfig::getUrlCommentableCallable();
+    if ($callable)
+    {
+      $commentableUrl = call_user_func($callable, $this->getCommentableObject());
+      return $commentableUrl .= '#comment-'.$this->getId();
+    }
+    return '';
+  }
 }
