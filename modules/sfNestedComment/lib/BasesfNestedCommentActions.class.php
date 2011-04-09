@@ -90,4 +90,13 @@ class BasesfNestedCommentActions extends sfActions
     $comments = sfNestedCommentTools::getComments($commentableObject, $request);
     return $this->renderPartial('sfNestedComment/comment_list', array('comments' => $comments));
   }
+
+  public function executePreview(sfWebRequest $request)
+  {
+    $this->forward404Unless($request->isXmlHttpRequest() && $request->isMethod('post'));
+    $this->setLayout(false);
+    
+    $commentText = sfNestedCommentTools::clean($request->getPostParameter('commentText'));
+    return $this->renderText($commentText);
+  }
 }
