@@ -71,7 +71,6 @@ class sfNestedCommentTools
   static public function clean($text)
   {
     $allowed_html_tags = sfNestedCommentConfig::getAllowedTags();
-    spl_autoload_register(array('HTMLPurifier_Bootstrap', 'autoload'));
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
     $config->set('HTML.Allowed', implode(',', array_keys($allowed_html_tags)));
