@@ -11,12 +11,18 @@ class sfNestedCommentPluginConfiguration extends sfPluginConfiguration
       {
         $this->dispatcher->connect('routing.load_configuration', array('sfNestedCommentRouting', 'listenToRoutingLoadConfigurationEvent'));
       }
+      
       if (in_array('sfNestedCommentAdmin', sfConfig::get('sf_enabled_modules', array())))
       {
         $this->dispatcher->connect('routing.load_configuration', array('sfNestedCommentRouting', 'addRouteForNestedCommentAdmin'));
       }
+      
       sfOutputEscaper::markClassAsSafe('sfNestedCommentsRenderer');
-      self::registerHTMLPurifier();
+
+      if (sfNestedCommentConfig::isUsePluginPurifier())
+      {
+        self::registerHTMLPurifier();
+      }
     }
   }
 

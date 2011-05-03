@@ -29,12 +29,14 @@ all:
     url_commentable_method: false  # static method or function to generate the url to show the commentable object (example: module/action?slug=symfony-is-rock)
                                    # example value: [sfSimpleBlogTools, generatePostUri]
     use_packaged_style:     true   # use plugin's stylesheet
-    allowed_tags:
-      a:                    <a>
-      blockquote:           <blockquote>
-      code:                 <code>
-      em:                   <em>
-      i:                    <i>
-      p:                    <p>
-      strong:               <strong>
-      pre:                  <pre>
+    purifier:
+      default_package:      true   # use default plugin's html purifier
+      allowed_tags:
+        a:                    <a>
+        blockquote:           <blockquote>
+        code:                 <code>
+        em:                   <em>
+        i:                    <i>
+        p:                    <p>
+        strong:               <strong>
+        pre:                  <pre>

@@ -78,9 +78,16 @@ class sfNestedCommentConfig
 
   static public function getAllowedTags()
   {
-    return sfConfig::get('app_sfNestedComment_allowed_tags', array());
+    $purifierConfig = sfConfig::get('app_sfNestedComment_purifier');
+    return $purifierConfig['allowed_tags'];
   }
 
+  static public function isUsePluginPurifier()
+  {
+    $purifierConfig = sfConfig::get('app_sfNestedComment_purifier');
+    return $purifierConfig['default_package'];
+  }
+  
   static public function isUsePluginStylesheet()
   {
     return sfConfig::get('app_sfNestedComment_use_packaged_style', true);
