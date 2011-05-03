@@ -1,4 +1,7 @@
 <?php use_helper('I18N') ?>
+<?php if (sfNestedCommentConfig::isUsePluginStylesheet()): ?>
+  <?php use_stylesheet('/sfNestedCommentPlugin/css/sfNestedComment.css') ?>
+<?php endif; ?>
 <?php use_javascript('/sfNestedCommentPlugin/js/sfNestedComment.reply.js') ?>
 
 <?php $use_ajax = sfNestedCommentConfig::isAjaxEnabled() ?>
