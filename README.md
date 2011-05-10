@@ -25,6 +25,7 @@ This plugin is for symfony 1.4 and [sfPropel15Plugin](http://www.symfony-project
 ## How to use ##
 
 Add the behavior in your schema. Example:
+
     <table name="post">
       <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
       <column name="title" type="VARCHAR" required="true" primaryString="true" />
@@ -33,6 +34,7 @@ Add the behavior in your schema. Example:
     </table>
 
 Rebuild your model:
+
     > ./symfony propel:build --all-classes
 
 Frontend Usage
@@ -135,16 +137,15 @@ Backend Usage
 -------------
 
 Activate the module in the settings.yml (apps/your_backend_app/config/settings.yml)
+
     enabled_modules:        [..., sfNestedCommentAdmin]
 
 
-Email Notification
-------------------
+## Email Notification ##
+In order this feature to work, your object (commentable object) must provide following functions:
 
-In order this feature to work, your object (commentable object) must provide following functions
-
-    1. __toString(). example: title of post.
-    2. getAuthorEmail(). The email to receive an incoming comment.
+  * **__toString()**. example: title of post.
+  * **getAuthorEmail()**. The email to receive an incoming comment.
 
         [php]
         public function getAuthorEmail()
@@ -152,35 +153,33 @@ In order this feature to work, your object (commentable object) must provide fol
           return $this->getAuthor()->getEmail();
         }
 
-    and in `myUser.class.php` (for backend application):
+and in `myUser.class.php` (for backend application):
 
-    1. getAuthorId() : Author Id,
-    2. getAuthorName() : Author Name,
-    3. getAuthorEmail() : Author Email,
-    4. getAuthorWebsite() : Author Website.
+  * getAuthorId() : Author Id,
+  * getAuthorName() : Author Name,
+  * getAuthorEmail() : Author Email,
+  * getAuthorWebsite() : Author Website.
 
 There several options you may consider when you enabled Email notification.
 
-    1.  mail_alert.
-        This setting used to enabled email notification. Possible values are:
+  * **mail_alert**. This setting used to enabled email notification. Possible values are:
         * true: send an email for every posted comment
         * moderated: send an email for every automoderated comment
         * false: disable mail notification
 
-    2.  automoderation.
-        Possible values are:
+  * **automoderation**. Possible values are:
         * true: comments are not published until a moderator accepts them
         * first_post: the first comment of a user must be accepted, subsequent posts are accepted automatically
         * false: comments are automatically accepted and published
 
-    3.  from_email. email sender
-    4.  max_attempts.
-        how many times the mail delivery should be attempted before flagging it as failed
+  * **from_email**. email sender
+  * **max_attempts**. How many times the mail delivery should be attempted before flagging it as failed
 
 Messages Spooling
 -----------------
 
 In the case you want to enable messages spooling, you can use the class provided by this plugin.
+In the factories.yml
 
     [yml]
     mailer:
@@ -198,4 +197,4 @@ In the case you want to enable messages spooling, you can use the class provided
       spool_arguments:   [ sfNestedCommentMailQueue, message, spooledMessages ]
 
 ## Options Configuration ##
-  * This plugin provide several options you can customize. See app.yml
+  * This plugin provide several options you can customize. See `app.yml`
