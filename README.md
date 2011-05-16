@@ -41,6 +41,7 @@ Frontend Usage
 -------------
 
 First, activate the module in the settings.yml (apps/your_frontend_app/config/settings.yml)
+
     enabled_modules:        [..., sfNestedComment]
 
 This plugin comes with two components.
