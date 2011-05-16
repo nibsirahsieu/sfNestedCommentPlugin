@@ -2,7 +2,7 @@ function setupAjaxCommentForm(nestedEnabled)
 {
   document.getElementById('sfNestedComment_add_comment_form').onsubmit = function () {
     var form = jQuery('#sfNestedComment_add_comment_form');
-    loader = jQuery('#add-comment-loader');
+    var loader = jQuery('#add-comment-loader');
     jQuery.ajax({
       type: "post",
       url: form.attr('action'),
@@ -26,4 +26,8 @@ function setupAjaxCommentForm(nestedEnabled)
     });
     return false;
   };
+
+  jQuery(document).ready(function() {
+    jQuery('textarea.resizable:not(.processed)').TextAreaResizer();
+  });
 }

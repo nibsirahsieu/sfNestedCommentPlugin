@@ -1,7 +1,9 @@
 <?php $use_ajax = sfNestedCommentConfig::isAjaxEnabled() ?>
 <?php if ($use_ajax): ?>
   <?php use_stylesheet('/sfNestedCommentPlugin/css/commentPreview.css', 'last') ?>
+  <?php use_stylesheet('/sfNestedCommentPlugin/css/jquery.textarearesizer.css', 'last') ?>
   <?php use_javascript('/sfNestedCommentPlugin/js/commentPreview.js', 'last') ?>
+  <?php use_javascript('/sfNestedCommentPlugin/js/jquery.textarearesizer.compressed.js', 'last') ?>
 <?php endif; ?>
 
 <div id="respond">
