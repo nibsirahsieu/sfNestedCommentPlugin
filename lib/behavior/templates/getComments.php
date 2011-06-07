@@ -1,6 +1,6 @@
 
 /**
- * function to retrieve approved level 1 comments
+ * function to retrieve approved comments level 1
  * @param     $limit max record to retrieve
  * @param     $page page number
  * @return    mixed
@@ -58,4 +58,3 @@ public function getComments($limit = 5, $page = null)
     return $query->limit($limit)->find();
   }
 }
-

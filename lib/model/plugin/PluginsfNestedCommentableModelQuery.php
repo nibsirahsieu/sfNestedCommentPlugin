@@ -13,7 +13,8 @@ class PluginsfNestedCommentableModelQuery extends BasesfNestedCommentableModelQu
       $commentableModel = $object['commentable_model'];
       $commentableId = $object['commentable_id'];
     }
-    return $this->filterByCommentableModel($commentableModel)
-                ->filterByCommentableId($commentableId);
+    return $this
+      ->filterByCommentableModel($commentableModel)
+      ->filterByCommentableId($commentableId);
   }
 }
