@@ -7,7 +7,7 @@
 <?php $use_ajax = sfNestedCommentConfig::isAjaxEnabled() ?>
 <?php $enable_nested = sfNestedCommentConfig::isNestedEnabled() ?>
 <?php if($use_ajax): ?>
-  <?php use_javascript(sfConfig::get('sf_jquery_web_dir') . '/js/'.sfConfig::get('sf_jquery_core'), 'first') ?>
+  <?php use_helper('jQuery') ?>
   <?php if($enable_nested): ?>
     <?php use_javascript('/sfNestedCommentPlugin/js/jCollapsible.js') ?>
   <?php endif; ?>

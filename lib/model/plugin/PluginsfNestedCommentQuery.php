@@ -28,8 +28,8 @@ class PluginsfNestedCommentQuery extends BasesfNestedCommentQuery
 
   public function model($object)
   {
-    return $this->join('sfNestedComment.sfNestedCommentableModel')
-      ->useQuery('sfNestedCommentableModel')
+    return $this
+      ->usesfNestedCommentableModelQuery()
         ->model($object)
       ->endUse();
   }
