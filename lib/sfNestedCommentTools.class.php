@@ -58,11 +58,11 @@ class sfNestedCommentTools
     }
     if (sfNestedCommentConfig::isNestedEnabled())
     {
-      $comments = $commentableObject->getApprovedCommentsLevel1($page, sfNestedCommentConfig::getMaxPerPageComment());
+      $comments = $commentableObject->getApprovedCommentsLevel1(sfNestedCommentConfig::getMaxPerPageComment(), $page);
     }
     else
     {
-      $comments = $commentableObject->getApprovedComments($page, sfNestedCommentConfig::getMaxPerPageComment());
+      $comments = $commentableObject->getApprovedComments(sfNestedCommentConfig::getMaxPerPageComment(), $page);
     }
     return $comments;
   }
@@ -93,6 +93,7 @@ class sfNestedCommentTools
   //http://brenelz.com/blog/creating-an-ellipsis-in-php/
   public static function ellipsis($text, $append='&hellip;')
   {
+    $text = strip_tags($text);
     $max = sfNestedCommentConfig::getMaxRecentTitleLength();
     if (strlen($text) <= $max) return $text;
     $out = substr($text,0,$max);
