@@ -7,12 +7,12 @@ class sfNestedCommentPluginConfiguration extends sfPluginConfiguration
   {
     if ($this->configuration instanceof sfApplicationConfiguration)
     {
-      if (in_array('sfNestedComment', sfConfig::get('sf_enabled_modules', array())))
+      if (sfNestedCommentConfig::isRoutesRegister() && in_array('sfNestedComment', sfConfig::get('sf_enabled_modules', array())))
       {
         $this->dispatcher->connect('routing.load_configuration', array('sfNestedCommentRouting', 'listenToRoutingLoadConfigurationEvent'));
       }
       
-      if (in_array('sfNestedCommentAdmin', sfConfig::get('sf_enabled_modules', array())))
+      if (sfNestedCommentConfig::isRoutesRegister() && in_array('sfNestedCommentAdmin', sfConfig::get('sf_enabled_modules', array())))
       {
         $this->dispatcher->connect('routing.load_configuration', array('sfNestedCommentRouting', 'addRouteForNestedCommentAdmin'));
       }

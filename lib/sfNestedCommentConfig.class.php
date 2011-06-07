@@ -107,4 +107,9 @@ class sfNestedCommentConfig
   {
     return sfConfig::get('app_recaptcha_private_key');
   }
+
+  static public function isRoutesRegister()
+  {
+    return sfConfig::get('app_sfNestedComment_routes_register', true);
+  }
 }
