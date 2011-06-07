@@ -20,28 +20,29 @@ generator:
         author_email:     { label: Email }
         author_url:       { label: Website }
       list:
-        title:    List of comments
+        max_per_page: 5
+        title:    Comments
         display:  [_author_name, _comment, commentableTitle]
         actions:  [ ]
+        query_methods: [ recent ]
         object_actions:
           _edit: ~
           togglePublish: { name: publish/unpublish, action: togglePublish }
           reply:         { name: Reply, action: new }
           _delete: ~
       filter:
-        display: [content, is_moderated]
+        class: sfNestedCommentFormFilter
         fields:
           content:
             widgetOptions: { with_empty: false }
       form:    ~
       edit:
         title: Edit Comment
-        display: [author_name, author_email, author_url, content, created_at]
+        display: [author_name, author_email, author_url, content]
         fields:
           author_name:  { type: plain }
           author_email: { type: plain }
           author_url:   { type: plain }
-          created_at:   { type: plain }
           content:
             widgetAttributes: { rows: 20, cols: 100 }
       new:
@@ -58,4 +59,3 @@ generator:
             widgetClass: sfWidgetFormInputHidden
           user_id:
             widgetClass: sfWidgetFormInputHidden
-
