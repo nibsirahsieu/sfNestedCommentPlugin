@@ -19,7 +19,7 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
     $allowedTags = sfNestedCommentConfig::getAllowedTags();
     if ($allowedTags)
     {
-      $this->widgetSchema->setHelp('content', __('You may use these HTML tags and attributes: ').htmlentities(implode(' ', $allowedTags)));
+      $this->widgetSchema->setHelp('content', 'You may use these HTML tags and attributes: '.htmlentities(implode(' ', $allowedTags)));
     }
     
     $this->widgetSchema['commentable_model'] = new sfWidgetFormInputHidden();
