@@ -28,7 +28,7 @@ class BasesfNestedCommentActions extends sfActions
   
   public function executeAddComment(sfWebRequest $request)
   {
-    $this->commentForm = new sfNestedCommentFrontForm();
+    $this->commentForm = new sfNestedCommentFrontForm(null, $this->getUser());
     $bindValues = $request->getParameter($this->commentForm->getName());
     if (sfNestedCommentConfig::isRecaptchaEnabled())
     {

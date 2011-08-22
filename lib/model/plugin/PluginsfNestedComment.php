@@ -43,12 +43,6 @@ class PluginsfNestedComment extends BasesfNestedComment
       {
         $parent = sfNestedCommentQuery::create()->findPk($this->getSfCommentId());
         $this->insertAsLastChildOf($parent);
-        if ($this->getUserId())
-        {
-          $this->setIsModerated(false);
-          $parent->setIsModerated(false);
-          $parent->save($con);
-        }
       }
     }
     return parent::preSave($con);

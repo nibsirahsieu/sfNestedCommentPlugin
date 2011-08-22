@@ -38,10 +38,10 @@ class sfNestedCommentTools
     return PropelQuery::from($commentModel->getCommentableModel())->findPk($commentModel->getCommentableId());
   }
 
-  public static function createCommentForm($commentableObject)
+  public static function createCommentForm($commentableObject, sfBasicSecurityUser $user = null)
   {
     $comment = new sfNestedComment();
-    $form = new sfNestedCommentFrontForm($comment);
+    $form = new sfNestedCommentFrontForm($comment, array('user' => $user));
     $form->setDefault('commentable_model', get_class($commentableObject));
     $form->setDefault('commentable_id', $commentableObject->getPrimaryKey());
     return $form;

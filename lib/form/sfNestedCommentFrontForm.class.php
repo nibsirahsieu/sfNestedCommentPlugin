@@ -1,27 +1,39 @@
 <?php
 class sfNestedCommentFrontForm extends sfNestedCommentForm
 {
-  public function  configure()
+  public function configure()
   {
     parent::configure();
+
+    $user = $this->getOption('user', null);
     
-    $this->useFields(array('id', 'author_name', 'author_email', 'author_url', 'content', 'sf_comment_id'));
+    if ($user && $user->isAuthenticated()) {
+      $this->useFields(array('id', 'author_name', 'author_email', 'author_url', 'content', 'sf_comment_id', 'user_id'));
+      
+      $this->widgetSchema['author_name'] = new sfWidgetFormInputHidden();
+      $this->widgetSchema['author_email'] = new sfWidgetFormInputHidden();
+      $this->widgetSchema['author_url'] = new sfWidgetFormInputHidden();
+      $this->widgetSchema['user_id'] = new sfWidgetFormInputHidden();
+    } else {
+      $this->useFields(array('id', 'author_name', 'author_email', 'author_url', 'content', 'sf_comment_id'));
+
+      $this->widgetSchema['author_name']->setLabel('Name (required)');
+      $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
+      $this->widgetSchema['author_url']->setLabel('Website');
+    }
     
     $this->validatorSchema['author_name'] = new sfValidatorString(array('required' => true));
     $this->validatorSchema['author_email'] = new sfValidatorEmail(array('required' => true));
     $this->validatorSchema['author_url'] = new sfValidatorUrl(array('required' => false));
     $this->validatorSchema['content'] = new sfValidatorString(array('required' => true));
+    
     $this->widgetSchema['content']->setAttributes(array('rows' => 10, 'class' => 'resizable'));
-    $this->widgetSchema['author_name']->setLabel('Name (required)');
-    $this->widgetSchema['author_email']->setLabel('Mail (required) (will not be published)');
-    $this->widgetSchema['author_url']->setLabel('Website');
     $this->widgetSchema['content']->setLabel('Comment (required)');
-    $allowedTags = sfNestedCommentConfig::getAllowedTags();
-    if ($allowedTags)
+    if ($allowedTags = sfNestedCommentConfig::getAllowedTags())
     {
       $this->widgetSchema->setHelp('content', 'You may use these HTML tags and attributes: '.htmlentities(implode(' ', $allowedTags)));
     }
-    
+
     $this->widgetSchema['commentable_model'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['commentable_id'] = new sfWidgetFormInputHidden();
     $this->validatorSchema['commentable_model'] = new sfValidatorString();
@@ -60,4 +72,18 @@ class sfNestedCommentFrontForm extends sfNestedCommentForm
 
     $this->getObject()->setsfNestedCommentableModel($commentable);
   }
+
+  protected function  updateDefaultsFromObject()
+  {
+    parent::updateDefaultsFromObject();
+
+    $user = $this->getOption('user');
+    
+    if ($user && $user->isAuthenticated()) {
+      $this->setDefault('user_id', $user->getAuthorId());
+      $this->setDefault('author_name', $user->getAuthorName());
+      $this->setDefault('author_email', $user->getAuthorEmail());
+      $this->setDefault('author_url', $user->getAuthorWebsite());
+    }
+   }
 }
