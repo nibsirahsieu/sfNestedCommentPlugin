@@ -45,6 +45,16 @@ Rebuild your model:
 
 `> ./symfony propel:build --all-classes`
 
+myUser.class.php
+----------------
+
+In `myUser.class.php` (frontend and backend application), you have to define the following functions (for the current logged on user):
+
+  * getAuthorId() : Author Id,
+  * getAuthorName() : Author Name,
+  * getAuthorEmail() : Author Email,
+  * getAuthorWebsite() : Author Website.
+
 Frontend Usage
 -------------
 
@@ -178,14 +188,8 @@ public function getAuthorEmail()
 }
 ```
 
-and in `myUser.class.php` (for backend application):
-
-  * getAuthorId() : Author Id,
-  * getAuthorName() : Author Name,
-  * getAuthorEmail() : Author Email,
-  * getAuthorWebsite() : Author Website.
-
 There are several options you may consider when you enabled Email notification:
+
   * **mail_alert**. This setting used to enabled email notification. Possible values are:
       * true: send an email for every posted comment
       * moderated: send an email for every automoderated comment
