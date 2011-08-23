@@ -230,8 +230,8 @@ param:
 
 ## Screenshots
 
-### Recent comments
-![Preview Recent comments](http://dl.dropbox.com/u/16750037/sfNestedCommentPlugin/Screenshot.png)
-
 ### Comments
-![Preview Comments](http://dl.dropbox.com/u/16750037/sfNestedCommentPlugin/Screenshot-1.png)
+![Preview Comments](http://dl.dropbox.com/u/16750037/sfNestedCommentPlugin/Screenshot.png)
+
+### Recent comments
+![Preview Recent comments](http://dl.dropbox.com/u/16750037/sfNestedCommentPlugin/Screenshot-1.png)
