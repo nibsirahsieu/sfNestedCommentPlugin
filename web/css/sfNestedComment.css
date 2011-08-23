@@ -47,7 +47,7 @@ h3#comments-title {padding: 24px 0;}
 #comments .pingback .url {font-size: 13px;font-style: italic;}
 
 /* Comments form */
-#respond {border-top: 1px solid #e7e7e7;margin: 24px 0;overflow: hidden;position: relative;}
+#respond {border-top: 1px solid #e7e7e7;margin: 24px 0 5px;overflow: hidden;position: relative;}
 #respond p {margin: 0;}
 #respond .comment-notes {margin-bottom: 1em;}
 .form-allowed-tags {line-height: 1em;}
@@ -63,7 +63,7 @@ h3#reply-title {margin: 18px 0;}
 #respond .form-allowed-tags {color: #888;font-size: 12px;line-height: 18px;}
 #respond .form-allowed-tags code {font-size: 11px;}
 #respond .form-submit {margin: 12px 0;}
-#respond .form-submit input {font-size: 14px;width: auto;}
+#respond .form-submit input {font-size: 14px;width: auto; display: inline-block; margin-right: 3px;}
 .comment-moderated, .comment-closed {font-style: italic;background-color: #FFFFEE;}
 #respond div.form_error label {color: red;}
 #cancel-comment-reply-link {display: none;}
