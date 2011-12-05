@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php if (method_exists($object instanceof sfOutputEscaper ? $object->getRawValue() : $object, 'allowComments')): ?>
   <?php $enable_comment = sfNestedCommentConfig::isCommentEnabled() && $object->allowComments() ?>
 <?php else: ?>

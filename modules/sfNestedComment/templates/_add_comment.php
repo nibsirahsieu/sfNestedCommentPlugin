@@ -1,3 +1,4 @@
+<?php use_helper('I18N') ?>
 <?php $use_ajax = sfNestedCommentConfig::isAjaxEnabled() ?>
 <?php if ($use_ajax): ?>
   <?php use_stylesheet('/sfNestedCommentPlugin/css/commentPreview.css', 'last') ?>
