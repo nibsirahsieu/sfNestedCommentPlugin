@@ -2,7 +2,7 @@
 
 The `sfNestedCommentPlugin` is a symfony plugin that enabled the model(s) to be commentable.
 Inspired by wordpress commenting system, its support nested comments and enabled by default.
-This plugin is for symfony 1.4 and [sfPropel15Plugin](http://www.symfony-project.org/plugins/sfPropel15Plugin).
+This plugin is for symfony 1.4 and [sfPropelORMPlugin](https://github.com/propelorm/sfPropelORMPlugin).
 
 You need [jQuery](http://jquery.com/) to use this plugin. jQuery is not bundeled with this plugin, you have to include it yourself.
 
