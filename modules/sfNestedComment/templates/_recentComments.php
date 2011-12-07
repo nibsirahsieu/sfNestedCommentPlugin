@@ -1,4 +1,4 @@
-<?php use_helper('sfNestedComment') ?>
+<?php use_helper('sfNestedComment', 'I18N') ?>
 <?php $use_gravatar = sfNestedCommentConfig::isGravatarEnabled() ?>
 <?php if ($use_gravatar): ?>
   <?php use_helper('Gravatar') ?>
